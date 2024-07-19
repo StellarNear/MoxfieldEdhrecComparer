@@ -1,0 +1,42 @@
+users:
+  - name: Stellarnear
+    decks:
+      - name: Feather
+        moxfieldId: xveOnGFOsE2A9eI1jmk6IQ
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/feather-the-redeemed.json?slug=feather-the-redeemed
+      - name: KaaliaChill
+        moxfieldId: d6x3WhWXz0KvDOHazPll9w
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/kaalia-of-the-vast.json?slug=kaalia-of-the-vast
+      - name: KaaliaQueen
+        moxfieldId: Abs5CDQbekG22B0-Ltn4yQ
+        edhreclinks: 
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/kaalia-of-the-vast.json?slug=kaalia-of-the-vast
+      - name: Prosper
+        moxfieldId: puj2MmJ25k6yk9CE6UL2DQ
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/prosper-tome-bound/treasure.json?slug=prosper-tome-bound&themeName=treasure
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/prosper-tome-bound.json?slug=prosper-tome-bound
+      - name: Pako
+        moxfieldId: TBDzmy5Wj0K21AevzAd5Bw
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/haldan-avid-arcanist-pako-arcane-retriever/lands.json?slug=haldan-avid-arcanist-pako-arcane-retriever&themeName=lands
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/haldan-avid-arcanist-pako-arcane-retriever.json?slug=haldan-avid-arcanist-pako-arcane-retriever
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/haldan-avid-arcanist-pako-arcane-retriever/extra-combats.json?slug=haldan-avid-arcanist-pako-arcane-retriever&themeName=extra-combats
+      - name: Breena
+        moxfieldId: WQPDC6zYlUKcCnaa7FTy1g
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/breena-the-demagogue/p1-p1-counters.json?slug=breena-the-demagogue&themeName=p1-p1-counters
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/breena-the-demagogue.json?slug=breena-the-demagogue
+      - name: Jodah
+        moxfieldId: RpmAtBvc3UWUEF3UZ2IimQ
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/jodah-the-unifier/legends.json?slug=jodah-the-unifier&themeName=legends
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/jodah-the-unifier.json?slug=jodah-the-unifier
+      - name: AtraxaCreatures
+        moxfieldId: HxV33izihky7KTwjU0ER9w
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/atraxa-praetors-voice/p1-p1-counters.json?slug=atraxa-praetors-voice&themeName=p1-p1-counters
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/atraxa-praetors-voice.json?slug=atraxa-praetors-voice
+    

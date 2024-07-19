@@ -1,6 +1,7 @@
 package com.stellarnear;
 
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -10,7 +11,6 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.charset.StandardCharsets;
-import java.text.Normalizer;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -18,11 +18,13 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Set;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.dataformat.yaml.YAMLFactory;
 
 /**
  * Hello world!
@@ -48,24 +50,48 @@ public final class Moxfieldedhreccomparer {
      */
     public static void main(String[] args) throws IOException {
         long startTotal = System.currentTimeMillis();
+        List<String> edhRecPages = new ArrayList<>();
 
-       // pako 
-    //    String publicMoxfieldId = "TBDzmy5Wj0K21AevzAd5Bw";
+        /* Setting part */
+        boolean singleDeck = false;
 
+        // setup the rest if singl== true
+        String name = "Feather";
+        String publicMoxfieldId = "xveOnGFOsE2A9eI1jmk6IQ";
+        edhRecPages.add(
+                "https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/feather-the-redeemed.json?slug=feather-the-redeemed");
 
-       String publicMoxfieldId = "CI4gnsXsh0OC7t-orVGrlw";
-  
+        int percentRetainMissingCard = 75;
 
+        /* END Setting part */
+
+        if (singleDeck) {
+            log.info("One deck to treat");
+            treatDeck(name, publicMoxfieldId, edhRecPages, percentRetainMissingCard);
+        } else {
+            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+
+            UsersData usersData = mapper.readValue(new File("./users.yml"), UsersData.class);
+
+            for (User user : usersData.getUsers()) {
+                log.info("Treating user : "+user.getName()+ " having "+user.getDecks().size()+" decks.");
+                for(Deck deck : user.getDecks()){
+                    treatDeck(deck.getName(), deck.getMoxfieldId(), deck.getEdhreclinks(), percentRetainMissingCard);
+                }
+            }
+
+            log.info("One deck to treat");
+        }
+
+        long endTotal = System.currentTimeMillis();
+        log.info("MoxfieldEdhComparer ended it took a total time of " + convertTime(endTotal - startTotal));
+    }
+
+    private static void treatDeck(String name, String publicMoxfieldId, List<String> edhRecPages,
+
+            int percentRetainMissingCard) throws IOException {
+        long startDeck = System.currentTimeMillis();
         List<Card> allDeckCards = getDeckListFor(publicMoxfieldId);
-
-        Set<String> edhRecPages = new HashSet<>();
-   //  pako   
-//    edhRecPages.add("https://edhrec.com/_next/data/7UlbKnw3oKcbhzWRuygx3/commanders/haldan-avid-arcanist-pako-arcane-retriever.json?slug=haldan-avid-arcanist-pako-arcane-retriever");
-//         edhRecPages.add("https://edhrec.com/_next/data/7UlbKnw3oKcbhzWRuygx3/commanders/haldan-avid-arcanist-pako-arcane-retriever/lands.json?slug=haldan-avid-arcanist-pako-arcane-retriever&themeName=lands");
-     edhRecPages.add("https://edhrec.com/_next/data/NL_A5ApTnfVEgnWu54j0P/commanders/aragorn-the-uniter/legends.json?slug=aragorn-the-uniter&themeName=legends");
-     edhRecPages.add("https://edhrec.com/_next/data/NL_A5ApTnfVEgnWu54j0P/commanders/aragorn-the-uniter.json?slug=aragorn-the-uniter");
-     edhRecPages.add("https://edhrec.com/_next/data/NL_A5ApTnfVEgnWu54j0P/commanders/aragorn-the-uniter/budget.json?slug=aragorn-the-uniter&themeName=budget");
-
         Map<String, Card> nameCardStat = new HashMap<>();
         for (String edhUrl : edhRecPages) {
             addCardFromEdhrec(nameCardStat, edhUrl);
@@ -73,18 +99,20 @@ public final class Moxfieldedhreccomparer {
 
         allDeckCards.sort(Comparator.comparing(Card::getName));
 
+        List<Card> crea = new ArrayList<>();
+        List<Card> sorcery = new ArrayList<>();
+        List<Card> instant = new ArrayList<>();
+        List<Card> artifact = new ArrayList<>();
+        List<Card> enchantment = new ArrayList<>();
+        List<Card> land = new ArrayList<>();
+        List<Card> misc = new ArrayList<>();
+        List<Card> missing = new ArrayList<>();
 
-        List<Card> crea= new ArrayList<>();
-        List<Card> sorcery= new ArrayList<>();
-        List<Card> instant= new ArrayList<>();
-        List<Card> artifact= new ArrayList<>();
-        List<Card> enchantment= new ArrayList<>();
-        List<Card> land= new ArrayList<>();
-        List<Card> misc= new ArrayList<>();
-
-        int nData=0;
-        for(Card card : allDeckCards){
-            if(nameCardStat.containsKey(card.getName())){
+        int nData = 0;
+        Set<String> allDeckCardName = new HashSet<>();
+        for (Card card : allDeckCards) {
+            allDeckCardName.add(card.getName());
+            if (nameCardStat.containsKey(card.getName())) {
                 card.setnDeck(nameCardStat.get(card.getName()).getnDeck());
                 card.setPercentPresentDeck(nameCardStat.get(card.getName()).getPercentPresentDeck());
                 card.setSynergyPercent(nameCardStat.get(card.getName()).getSynergyPercent());
@@ -95,46 +123,55 @@ public final class Moxfieldedhreccomparer {
                 card.setSynergyPercent(-1);
             }
 
-            if(card.getType_line().toLowerCase().contains("creat") && !card.getType_line().toLowerCase().contains("enchant")){
+            if (card.getType_line().toLowerCase().contains("creat")
+                    && !card.getType_line().toLowerCase().contains("enchant")) {
                 crea.add(card);
-            }else   if(card.getType_line().toLowerCase().contains("sorcer")){
+            } else if (card.getType_line().toLowerCase().contains("sorcer")) {
                 sorcery.add(card);
-            }else   if(card.getType_line().toLowerCase().contains("instant")){
+            } else if (card.getType_line().toLowerCase().contains("instant")) {
                 instant.add(card);
-            }else   if(card.getType_line().toLowerCase().contains("artifa")){
+            } else if (card.getType_line().toLowerCase().contains("artifa")) {
                 artifact.add(card);
-            }else   if(card.getType_line().toLowerCase().contains("enchant")){
+            } else if (card.getType_line().toLowerCase().contains("enchant")) {
                 enchantment.add(card);
-            }else   if(card.getType_line().toLowerCase().contains("land")){
+            } else if (card.getType_line().toLowerCase().contains("land")) {
                 land.add(card);
-            }else {
+            } else {
                 misc.add(card);
             }
         }
 
-     
+        for (Entry<String, Card> entry : nameCardStat.entrySet()) {
+            if (!allDeckCardName.contains(entry.getKey())
+                    && (entry.getValue().getSynergyPercent() >= percentRetainMissingCard
+                            || entry.getValue().getPercentPresentDeck() >= percentRetainMissingCard)) {
+                missing.add(entry.getValue());
+            }
+        }
 
+        csvOutput(name, crea, "Creatures");
 
-        
-        csvOutput(crea,"Creatures");
-           
-        csvOutput(sorcery,"Sorceries");
-           
-        csvOutput(instant,"Instants");
-           
-        csvOutput(artifact,"Artifacts");
-           
-        csvOutput(land,"Lands");
-           
-        csvOutput(enchantment,"Enchantments");
-           
-        csvOutput(misc,"Misc");
+        csvOutput(name, sorcery, "Sorceries");
 
-        
+        csvOutput(name, instant, "Instants");
 
-        long endTotal = System.currentTimeMillis();
-        log.info("moxfieldedhreccomparer ended it took a total time of " + convertTime(endTotal - startTotal));
-        log.info("We had "+allDeckCards.size()+" cards and found data on "+nData+" cards ("+((int)(100.0*((1.0*nData)/(1.0*allDeckCards.size()))))+" %).");
+        csvOutput(name, artifact, "Artifacts");
+
+        csvOutput(name, land, "Lands");
+
+        csvOutput(name, enchantment, "Enchantments");
+
+        csvOutput(name, misc, "Miscs");
+
+        if (missing.size() > 0) {
+            csvOutput(name, missing, "Missings");
+            log.warn("We have " + missing.size() + " missing cards !");
+        }
+        long endDeck = System.currentTimeMillis();
+
+        log.info("Deck [" + name + "] ended it took a total time of " + convertTime(endDeck - startDeck));
+        log.info("Deck [" + name + "] We had " + allDeckCards.size() + " cards and found data on " + nData + " cards ("
+                + ((int) (100.0 * ((1.0 * nData) / (1.0 * allDeckCards.size())))) + " %).");
     }
 
     private static void addCardFromEdhrec(Map<String, Card> mapNameCard, String edhUrl) {
@@ -148,7 +185,8 @@ public final class Moxfieldedhreccomparer {
             connection.setRequestProperty("Accept", "application/json");
 
             // Read response
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
                 StringBuilder responseBuilder = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -223,7 +261,8 @@ public final class Moxfieldedhreccomparer {
             connection = (HttpURLConnection) url.openConnection();
             setConenction(connection);
 
-            try (BufferedReader reader = new BufferedReader(new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
+            try (BufferedReader reader = new BufferedReader(
+                    new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
                 StringBuilder responseBuilder = new StringBuilder();
                 String line;
                 while ((line = reader.readLine()) != null) {
@@ -288,36 +327,37 @@ public final class Moxfieldedhreccomparer {
     }
 
     public static String cleanString(String inputRaw) {
-        
 
         String input;
         if (needsEncodingFix(inputRaw)) {
             byte[] bytes = inputRaw.getBytes(StandardCharsets.ISO_8859_1);
-            input= new String(bytes, StandardCharsets.UTF_8);
+            input = new String(bytes, StandardCharsets.UTF_8);
         } else {
-            input=inputRaw;
+            input = inputRaw;
         }
 
         return input;
 
-        /* 
-        // Convert to lowercase
-        String lowerCaseString = input.toLowerCase();
+        /*
+         * // Convert to lowercase
+         * String lowerCaseString = input.toLowerCase();
+         * 
+         * // Normalize the string to decompose accents
+         * String normalizedString = Normalizer.normalize(lowerCaseString,
+         * Normalizer.Form.NFD);
+         * 
+         * // Remove accents
+         * // String accentRemovedString =
+         * normalizedString.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
+         * 
+         * String accentRemovedString = normalizedString.replaceAll("\\p{M}", "");
+         * 
+         * // Remove non-alphabetic characters except spaces
+         * String cleanedString = accentRemovedString.replaceAll("[^a-zA-Z\\s]", "");
+         * 
+         * return cleanedString;
+         */
 
-        // Normalize the string to decompose accents
-        String normalizedString = Normalizer.normalize(lowerCaseString, Normalizer.Form.NFD);
-
-        // Remove accents
-      //  String accentRemovedString = normalizedString.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-
-        String accentRemovedString = normalizedString.replaceAll("\\p{M}", "");
-
-        // Remove non-alphabetic characters except spaces
-        String cleanedString = accentRemovedString.replaceAll("[^a-zA-Z\\s]", "");
-
-        return cleanedString;
-        */
-     
     }
 
     public static boolean needsEncodingFix(String input) {
@@ -326,7 +366,8 @@ public final class Moxfieldedhreccomparer {
         // 2. Characters outside the typical printable ASCII and Latin-1 range
 
         for (char c : input.toCharArray()) {
-            // Detect non-ASCII, non-printable characters, which could indicate encoding issues
+            // Detect non-ASCII, non-printable characters, which could indicate encoding
+            // issues
             if ((c < 32 || c > 126) && (c < 160 || c > 255)) {
                 return true;
             }
@@ -334,16 +375,20 @@ public final class Moxfieldedhreccomparer {
 
         return false;
     }
-    
-      private static void csvOutput(List<Card> allCards,String nameFile) throws IOException {
-        csvOutputFile(allCards,nameFile+"_alphabetical");
+
+    private static void csvOutput(String nameDeck, List<Card> allCards, String nameFile) throws IOException {
+        csvOutputFile(nameDeck, allCards, nameFile + "_alphabetical");
         allCards.sort(Comparator.comparing(Card::getPercentPresentDeck));
-        csvOutputFile(allCards,nameFile+"_usage_percent");
+        csvOutputFile(nameDeck, allCards, nameFile + "_usage_percent");
     }
 
-    private static void csvOutputFile(List<Card> allCards,String nameFile) throws IOException {
+    private static void csvOutputFile(String nameDeck, List<Card> allCards, String nameFile) throws IOException {
+        File deckDir = new File("OUT/" + nameDeck);
+        if (!deckDir.exists()) {
+            deckDir.mkdir();
+        }
         try (PrintWriter out = new PrintWriter(new OutputStreamWriter(
-                new FileOutputStream("OUT/"+nameFile+".csv"), StandardCharsets.UTF_8))) {
+                new FileOutputStream(deckDir + "/" + nameFile + ".csv"), StandardCharsets.UTF_8))) {
             // CSV Header
             out.println("CardName;PercentPresence;Ndeck;Synergy");
 
@@ -357,7 +402,6 @@ public final class Moxfieldedhreccomparer {
             }
         }
     }
-     
 
     private static String convertTime(long l) {
         int nHour = (int) (((l / 1000) / 60) / 60);
