@@ -50,29 +50,40 @@ public final class Moxfieldedhreccomparer {
      */
     public static void main(String[] args) throws IOException {
         long startTotal = System.currentTimeMillis();
-        List<String> edhRecPages = new ArrayList<>();
+       
+        ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
+        UsersData usersData = mapper.readValue(new File("./users.yml"), UsersData.class);
+
 
         /* Setting part */
-        boolean singleDeck = false;
-
-        // setup the rest if singl== true
-        String name = "Feather";
-        String publicMoxfieldId = "xveOnGFOsE2A9eI1jmk6IQ";
-        edhRecPages.add(
-                "https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/feather-the-redeemed.json?slug=feather-the-redeemed");
+        boolean singleDeck = true;
 
         int percentRetainMissingCard = 75;
 
+        // setup the rest if singl== true
+        String name = "Orvar";
+        for (User user : usersData.getUsers()) {
+            for(Deck deck : user.getDecks()){
+                if(deck.getName().equalsIgnoreCase(name)){
+                    treatDeck(deck.getName(), deck.getMoxfieldId(), deck.getEdhreclinks(), percentRetainMissingCard);
+                }
+              
+            }
+        }
+        /*  mannual settings
+        String publicMoxfieldId = "xveOnGFOsE2A9eI1jmk6IQ";
+         List<String> edhRecPages = new ArrayList<>();
+        edhRecPages.add(
+                "https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/feather-the-redeemed.json?slug=feather-the-redeemed");
+                treatDec()
+*/
+
+
+       
+
         /* END Setting part */
 
-        if (singleDeck) {
-            log.info("One deck to treat");
-            treatDeck(name, publicMoxfieldId, edhRecPages, percentRetainMissingCard);
-        } else {
-            ObjectMapper mapper = new ObjectMapper(new YAMLFactory());
-
-            UsersData usersData = mapper.readValue(new File("./users.yml"), UsersData.class);
-
+        if (!singleDeck) {
             for (User user : usersData.getUsers()) {
                 log.info("Treating user : "+user.getName()+ " having "+user.getDecks().size()+" decks.");
                 for(Deck deck : user.getDecks()){

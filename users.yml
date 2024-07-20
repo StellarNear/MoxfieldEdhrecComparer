@@ -39,4 +39,26 @@ users:
         edhreclinks:
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/atraxa-praetors-voice/p1-p1-counters.json?slug=atraxa-praetors-voice&themeName=p1-p1-counters
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/atraxa-praetors-voice.json?slug=atraxa-praetors-voice
-    
+      - name: Balan
+        moxfieldId: QK-yv2pvbEODh3n4anTAOg
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/balan-wandering-knight/equipment.json?slug=balan-wandering-knight&themeName=equipment
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/balan-wandering-knight.json?slug=balan-wandering-knight
+      - name: Kathilda
+        moxfieldId: MfbuzT0nBk6Jk13AvF363A
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/katilda-dawnhart-martyr/spirit.json?slug=katilda-dawnhart-martyr&themeName=spirit
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/katilda-dawnhart-martyr.json?slug=katilda-dawnhart-martyr
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/katilda-dawnhart-martyr/auras.json?slug=katilda-dawnhart-martyr&themeName=auras
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/katilda-dawnhart-martyr/enchantments.json?slug=katilda-dawnhart-martyr&themeName=enchantments
+      - name: Mari
+        moxfieldId: eIhifxDLk0uJFLck_LGQ4w
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/mari-the-killing-quill/treasure.json?slug=mari-the-killing-quill&themeName=treasure
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/mari-the-killing-quill/rogue.json?slug=mari-the-killing-quill&themeName=rogue
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/mari-the-killing-quill.json?slug=mari-the-killing-quill
+      - name: Orvar
+        moxfieldId: /fIO9qNM3sUKwXJw3b-pWtA
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/orvar-the-all-form/cantrips.json?slug=orvar-the-all-form&themeName=cantrips
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/orvar-the-all-form.json?slug=orvar-the-all-form
