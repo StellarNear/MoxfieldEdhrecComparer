@@ -23,7 +23,7 @@ public class CustomLog {
     public CustomLog(Class<?> clazz) {
         this.currentLoggedClassName = clazz.getName();
         SimpleDateFormat logFormater = new SimpleDateFormat("yy_MM_dd HH_mm_ss", Locale.FRANCE);
-        String pathLog = this.currentLoggedClassName + logFormater.format(new Date()) + ".log";
+        String pathLog = "./logs/"+this.currentLoggedClassName + logFormater.format(new Date()) + ".log";
         logFile = new java.io.File(pathLog);
         try {
         logFile.createNewFile();

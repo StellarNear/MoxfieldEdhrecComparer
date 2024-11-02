@@ -1,4 +1,46 @@
 users:
+  - name: KhoCarnage
+    decks:
+      - name: KarlOmax
+        moxfieldId: bC_Qt7ro606_Vadz7ZtX6A
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/kalamax-the-stormsire/spellslinger.json?slug=kalamax-the-stormsire&tag=spellslinger
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/kalamax-the-stormsire/spell-copy.json?slug=kalamax-the-stormsire&tag=spell-copy
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/kalamax-the-stormsire.json?slug=kalamax-the-stormsire
+      - name: PileOuFace
+        moxfieldId: O7H8ZUrXOUulmWXSJ2twXg
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/okaun-eye-of-chaos-zndrsplt-eye-of-wisdom/chaos.json?slug=okaun-eye-of-chaos-zndrsplt-eye-of-wisdom&tag=chaos
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/okaun-eye-of-chaos-zndrsplt-eye-of-wisdom.json?slug=okaun-eye-of-chaos-zndrsplt-eye-of-wisdom
+      - name: PrismaticBridju
+        moxfieldId: PKEd9FiD2k-kQ-y3P8f9EA
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/esika-god-of-the-tree.json?slug=esika-god-of-the-tree
+      - name:  XenaGod
+        moxfieldId: lA6C200nxkGDQr85Cq519Q
+        edhreclinks: 
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/xenagos-god-of-revels/extra-combats.json?slug=xenagos-god-of-revels&tag=extra-combats
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/xenagos-god-of-revels.json?slug=xenagos-god-of-revels
+      - name: Kros
+        moxfieldId: RETge8cND0SpWn8nPy7PXA
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/kros-defense-contractor/p1-p1-counters.json?slug=kros-defense-contractor&tag=p1-p1-counters
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/kros-defense-contractor.json?slug=kros-defense-contractor
+      - name: Zagras
+        moxfieldId: 6-p8Wl-bAEqhuLkO-LJa_A
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/zagras-thief-of-heartbeats/party.json?slug=zagras-thief-of-heartbeats&tag=party
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/zagras-thief-of-heartbeats.json?slug=zagras-thief-of-heartbeats
+      - name: DarkMamamou
+        moxfieldId: gnqEpt_SMEqXkfsngFUrBw
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/brimaz-blight-of-oreskos/phyrexian.json?slug=brimaz-blight-of-oreskos&tag=phyrexian
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/brimaz-blight-of-oreskos.json?slug=brimaz-blight-of-oreskos
+      - name: Sauron
+        moxfieldId: Oy8LWsSdVU6jaATOzv5jXA
+        edhreclinks:
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/sauron-the-dark-lord/zombie-tokens.json?slug=sauron-the-dark-lord&tag=zombie-tokens
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/sauron-the-dark-lord.json?slug=sauron-the-dark-lord
   - name: Stellarnear
     decks:
       - name: Feather
@@ -16,49 +58,155 @@ users:
       - name: Prosper
         moxfieldId: puj2MmJ25k6yk9CE6UL2DQ
         edhreclinks:
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/prosper-tome-bound/treasure.json?slug=prosper-tome-bound&themeName=treasure
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/prosper-tome-bound/treasure.json?slug=prosper-tome-bound&tag=treasure
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/prosper-tome-bound.json?slug=prosper-tome-bound
       - name: Pako
         moxfieldId: TBDzmy5Wj0K21AevzAd5Bw
         edhreclinks:
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/haldan-avid-arcanist-pako-arcane-retriever/lands.json?slug=haldan-avid-arcanist-pako-arcane-retriever&themeName=lands
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/haldan-avid-arcanist-pako-arcane-retriever.json?slug=haldan-avid-arcanist-pako-arcane-retriever
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/haldan-avid-arcanist-pako-arcane-retriever/extra-combats.json?slug=haldan-avid-arcanist-pako-arcane-retriever&themeName=extra-combats
+          - https://edhrec.com/_next/data/dCr3y7rNEFHOq9hT-pp3F/commanders/haldan-avid-arcanist-pako-arcane-retriever/lands-matter.json?slug=haldan-avid-arcanist-pako-arcane-retriever&tag=lands-matter
+          - https://edhrec.com/_next/data/GHPzhXhQMBhgMPrgEUOVI/commanders/haldan-avid-arcanist-pako-arcane-retriever.json?slug=haldan-avid-arcanist-pako-arcane-retriever
+          - https://edhrec.com/_next/data/GHPzhXhQMBhgMPrgEUOVI/commanders/haldan-avid-arcanist-pako-arcane-retriever/extra-combats.json?slug=haldan-avid-arcanist-pako-arcane-retriever&tag=extra-combats
       - name: Breena
         moxfieldId: WQPDC6zYlUKcCnaa7FTy1g
         edhreclinks:
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/breena-the-demagogue/p1-p1-counters.json?slug=breena-the-demagogue&themeName=p1-p1-counters
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/breena-the-demagogue/p1-p1-counters.json?slug=breena-the-demagogue&tag=p1-p1-counters
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/breena-the-demagogue.json?slug=breena-the-demagogue
       - name: Jodah
         moxfieldId: RpmAtBvc3UWUEF3UZ2IimQ
         edhreclinks:
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/jodah-the-unifier/legends.json?slug=jodah-the-unifier&themeName=legends
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/jodah-the-unifier/legends.json?slug=jodah-the-unifier&tag=legends
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/jodah-the-unifier.json?slug=jodah-the-unifier
       - name: AtraxaCreatures
         moxfieldId: HxV33izihky7KTwjU0ER9w
         edhreclinks:
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/atraxa-praetors-voice/p1-p1-counters.json?slug=atraxa-praetors-voice&themeName=p1-p1-counters
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/atraxa-praetors-voice/p1-p1-counters.json?slug=atraxa-praetors-voice&tag=p1-p1-counters
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/atraxa-praetors-voice.json?slug=atraxa-praetors-voice
+      - name: AtraxaFriends
+        moxfieldId: HD7WqdsKNkqCm2fyZs3P0g
+        edhreclinks:
+          - https://edhrec.com/_next/data/t5UfB3lYr1aJTN1yzVJ_6/commanders/atraxa-praetors-voice/planeswalkers.json?slug=atraxa-praetors-voice&tag=planeswalkers
+      - name: Bolas
+        moxfieldId: 9CGAAVDHy02vjTs60s4s8A
+        edhreclinks:
+          - https://edhrec.com/_next/data/t5UfB3lYr1aJTN1yzVJ_6/commanders/nicol-bolas-the-ravager/planeswalkers.json?slug=nicol-bolas-the-ravager&tag=planeswalkers
       - name: Balan
         moxfieldId: QK-yv2pvbEODh3n4anTAOg
         edhreclinks:
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/balan-wandering-knight/equipment.json?slug=balan-wandering-knight&themeName=equipment
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/balan-wandering-knight/equipment.json?slug=balan-wandering-knight&tag=equipment
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/balan-wandering-knight.json?slug=balan-wandering-knight
       - name: Kathilda
         moxfieldId: MfbuzT0nBk6Jk13AvF363A
         edhreclinks:
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/katilda-dawnhart-martyr/spirit.json?slug=katilda-dawnhart-martyr&themeName=spirit
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/katilda-dawnhart-martyr/spirit.json?slug=katilda-dawnhart-martyr&tag=spirit
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/katilda-dawnhart-martyr.json?slug=katilda-dawnhart-martyr
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/katilda-dawnhart-martyr/auras.json?slug=katilda-dawnhart-martyr&themeName=auras
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/katilda-dawnhart-martyr/enchantments.json?slug=katilda-dawnhart-martyr&themeName=enchantments
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/katilda-dawnhart-martyr/auras.json?slug=katilda-dawnhart-martyr&tag=auras
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/katilda-dawnhart-martyr/enchantments.json?slug=katilda-dawnhart-martyr&tag=enchantments
       - name: Mari
         moxfieldId: eIhifxDLk0uJFLck_LGQ4w
         edhreclinks:
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/mari-the-killing-quill/treasure.json?slug=mari-the-killing-quill&themeName=treasure
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/mari-the-killing-quill/rogue.json?slug=mari-the-killing-quill&themeName=rogue
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/mari-the-killing-quill/treasure.json?slug=mari-the-killing-quill&tag=treasure
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/mari-the-killing-quill/rogue.json?slug=mari-the-killing-quill&tag=rogue
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/mari-the-killing-quill.json?slug=mari-the-killing-quill
       - name: Orvar
-        moxfieldId: /fIO9qNM3sUKwXJw3b-pWtA
+        moxfieldId: fIO9qNM3sUKwXJw3b-pWtA
         edhreclinks:
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/orvar-the-all-form/cantrips.json?slug=orvar-the-all-form&themeName=cantrips
+          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/orvar-the-all-form/cantrips.json?slug=orvar-the-all-form&tag=cantrips
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/orvar-the-all-form.json?slug=orvar-the-all-form
+      - name: Stella
+        moxfieldId: Zra0UDSL00uwbtFlTc41Pw
+        edhreclinks:
+          - https://edhrec.com/_next/data/8oLyoc0ekiJegXH_pWNJ9/commanders/stella-lee-wild-card/spellslinger.json?slug=stella-lee-wild-card&tag=spellslinger
+          - https://edhrec.com/_next/data/8oLyoc0ekiJegXH_pWNJ9/commanders/stella-lee-wild-card.json?slug=stella-lee-wild-card
+          - https://edhrec.com/_next/data/8oLyoc0ekiJegXH_pWNJ9/commanders/stella-lee-wild-card/spell-copy.json?slug=stella-lee-wild-card&tag=spell-copy      
+      - name: Gale
+        moxfieldId: JJmWQqBaWUqN24LcsXX9_Q
+        edhreclinks:
+          - https://edhrec.com/_next/data/8oLyoc0ekiJegXH_pWNJ9/commanders/gale-waterdeep-prodigy-scion-of-halaster/spellslinger.json?slug=gale-waterdeep-prodigy-scion-of-halaster&tag=spellslinger
+          - https://edhrec.com/_next/data/8oLyoc0ekiJegXH_pWNJ9/commanders/gale-waterdeep-prodigy-scion-of-halaster.json?slug=gale-waterdeep-prodigy-scion-of-halaster
+      - name: Zedruu
+        moxfieldId: MDQ-_BZSVkG4pqbzg4-MNg
+        edhreclinks:
+          - https://edhrec.com/_next/data/UuE7EAWl9DOvQjYTWC1UL/commanders/zedruu-the-greathearted/chaos.json?slug=zedruu-the-greathearted&tag=chaos
+          - https://edhrec.com/_next/data/UuE7EAWl9DOvQjYTWC1UL/commanders/zedruu-the-greathearted.json?slug=zedruu-the-greathearted
+      - name: Selvala
+        moxfieldId: EodEQbk4yU2Xys3lYeQU1Q
+        edhreclinks:
+          - https://edhrec.com/_next/data/UuE7EAWl9DOvQjYTWC1UL/commanders/selvala-heart-of-the-wilds.json?slug=selvala-heart-of-the-wilds
+          - https://edhrec.com/_next/data/UuE7EAWl9DOvQjYTWC1UL/commanders/selvala-heart-of-the-wilds/hydra.json?slug=selvala-heart-of-the-wilds&tag=hydra
+      - name: Slivo
+        moxfieldId: dDJB-2b4x0SM7lwDiy8PXg
+        edhreclinks:
+          - https://edhrec.com/_next/data/UuE7EAWl9DOvQjYTWC1UL/commanders/the-first-sliver/sliver.json?slug=the-first-sliver&tag=sliver
+          - https://cards.scryfall.io/normal/front/a/5/a5f8f9e9-4505-485a-b6c6-a92a4da5155a.jpg?1690005061
+      - name: Neheb
+        moxfieldId: NKn9jQHm3EaQIuKPlKn1cA
+        edhreclinks:
+          - https://edhrec.com/_next/data/UuE7EAWl9DOvQjYTWC1UL/commanders/neheb-the-eternal/burn.json?slug=neheb-the-eternal&tag=burn
+          - https://edhrec.com/_next/data/UuE7EAWl9DOvQjYTWC1UL/commanders/neheb-the-eternal.json?slug=neheb-the-eternal
+      - name: Orah
+        moxfieldId: Nj85QmN7e0-acOG8vfXgnQ
+        edhreclinks:
+          - https://edhrec.com/_next/data/UuE7EAWl9DOvQjYTWC1UL/commanders/orah-skyclave-hierophant/cleric.json?slug=orah-skyclave-hierophant&tag=cleric
+          - https://edhrec.com/_next/data/UuE7EAWl9DOvQjYTWC1UL/commanders/orah-skyclave-hierophant.json?slug=orah-skyclave-hierophant
+      - name: Lathril
+        moxfieldId: agfxFeSHbU-fwT-Lc24vhQ
+        edhreclinks:
+          - https://edhrec.com/_next/data/Bh78ZsnzES2pZqU84VEnf/commanders/lathril-blade-of-the-elves/elf.json?slug=lathril-blade-of-the-elves&tag=elf
+          - https://edhrec.com/_next/data/Bh78ZsnzES2pZqU84VEnf/commanders/lathril-blade-of-the-elves.json?slug=lathril-blade-of-the-elves
+      - name: Jon
+        moxfieldId: ATffeR-ys0yKNEkFLppOgA
+        edhreclinks:
+          - https://edhrec.com/_next/data/ymXJxccSD2EWujoyQlibZ/commanders/jon-irenicus-shattered-one.json?slug=jon-irenicus-shattered-one
+      - name: Yuriko
+        moxfieldId: kJcEKNJ3P0eZRVVQHdHzeg
+        edhreclinks:
+          - https://edhrec.com/_next/data/dCr3y7rNEFHOq9hT-pp3F/commanders/yuriko-the-tigers-shadow.json?slug=yuriko-the-tigers-shadow
+          - https://edhrec.com/_next/data/dCr3y7rNEFHOq9hT-pp3F/commanders/yuriko-the-tigers-shadow/ninjutsu.json?slug=yuriko-the-tigers-shadow&tag=ninjutsu
+          - https://edhrec.com/_next/data/zbGzmBP0ZUUtEjN_9ofXQ/commanders/yuriko-the-tigers-shadow/ninjas.json?slug=yuriko-the-tigers-shadow&tag=ninjas
+      - name: Zethi
+        moxfieldId: 9AYzD7WrYki4yDLgIGhBAA
+        edhreclinks:
+          - https://edhrec.com/_next/data/zbGzmBP0ZUUtEjN_9ofXQ/commanders/zethi-arcane-blademaster/spellslinger.json?slug=zethi-arcane-blademaster&tag=spellslinger
+          - https://edhrec.com/_next/data/zbGzmBP0ZUUtEjN_9ofXQ/commanders/zethi-arcane-blademaster.json?slug=zethi-arcane-blademaster
+      - name: Roxanne
+        moxfieldId: RD2kbSMKAUGgJxtM2cE9Pw
+        edhreclinks:
+          - https://edhrec.com/_next/data/zbGzmBP0ZUUtEjN_9ofXQ/commanders/roxanne-starfall-savant/treasure.json?slug=roxanne-starfall-savant&tag=treasure
+          - https://edhrec.com/_next/data/zbGzmBP0ZUUtEjN_9ofXQ/commanders/roxanne-starfall-savant.json?slug=roxanne-starfall-savant
+  - name: Juicy
+    decks:
+      - name: Aragorn
+        moxfieldId: CI4gnsXsh0OC7t-orVGrlw
+        edhreclinks:
+          - https://edhrec.com/_next/data/jVkjEXfIo9IX86pGstZK6/commanders/aragorn-the-uniter/legends.json?slug=aragorn-the-uniter&tag=legends
+          - https://edhrec.com/_next/data/jVkjEXfIo9IX86pGstZK6/commanders/aragorn-the-uniter.json?slug=aragorn-the-uniter
+      - name: FoodAndFellowship
+        moxfieldId: You5jFaOd06WwppTMNbq_g
+        edhreclinks: 
+          - https://edhrec.com/_next/data/jVkjEXfIo9IX86pGstZK6/commanders/frodo-adventurous-hobbit-sam-loyal-attendant.json?slug=frodo-adventurous-hobbit-sam-loyal-attendant
+          - https://edhrec.com/_next/data/jVkjEXfIo9IX86pGstZK6/commanders/frodo-adventurous-hobbit-sam-loyal-attendant/lifegain.json?slug=frodo-adventurous-hobbit-sam-loyal-attendant&tag=lifegain
+      - name: Kykar
+        moxfieldId: qI4fJr8LjkWwwE_0U440-w
+        edhreclinks:
+          - https://edhrec.com/_next/data/jVkjEXfIo9IX86pGstZK6/commanders/kykar-winds-fury/spellslinger.json?slug=kykar-winds-fury&tag=spellslinger
+      - name: Olivia
+        moxfieldId: X9jzAB52IkimJdehsl53kg
+        edhreclinks:
+          - https://edhrec.com/_next/data/w8K9u-m5F3jRsu8uflilq/commanders/olivia-opulent-outlaw/treasure.json?slug=olivia-opulent-outlaw&tag=treasure
+          - https://edhrec.com/_next/data/w8K9u-m5F3jRsu8uflilq/commanders/olivia-opulent-outlaw.json?slug=olivia-opulent-outlaw
+      - name: Animar
+        moxfieldId: 66jcv-8J8EaHh8us5BvENQ
+        edhreclinks:
+          - https://edhrec.com/_next/data/w8K9u-m5F3jRsu8uflilq/commanders/animar-soul-of-elements/expensive.json?slug=animar-soul-of-elements&tag=expensive
+          - https://edhrec.com/_next/data/w8K9u-m5F3jRsu8uflilq/commanders/animar-soul-of-elements.json?slug=animar-soul-of-elements
+      - name: Captain
+        moxfieldId: OmaIq7LxJ0KRGcKNAcTBSw
+        edhreclinks:
+          - https://edhrec.com/_next/data/w8K9u-m5F3jRsu8uflilq/commanders/captain-nghathrod/horrors.json?slug=captain-nghathrod&tag=horrors
+          - https://edhrec.com/_next/data/w8K9u-m5F3jRsu8uflilq/commanders/captain-nghathrod.json?slug=captain-nghathrod
+  - name: Tylem
+    decks:
+      - name: Miirym
+        moxfieldId: I0PhX2o9wEegdYIid6p6bw
+        edhreclinks:
+          - https://edhrec.com/_next/data/iqHsHq824gKPfpgT0SO1t/commanders/miirym-sentinel-wyrm.json?slug=miirym-sentinel-wyrm
