@@ -136,8 +136,8 @@ users:
       - name: Slivo
         moxfieldId: dDJB-2b4x0SM7lwDiy8PXg
         edhreclinks:
-          - https://edhrec.com/_next/data/UuE7EAWl9DOvQjYTWC1UL/commanders/the-first-sliver/sliver.json?slug=the-first-sliver&tag=sliver
-          - https://cards.scryfall.io/normal/front/a/5/a5f8f9e9-4505-485a-b6c6-a92a4da5155a.jpg?1690005061
+          - https://edhrec.com/_next/data/QE5GT7ktvZUN8d68r-9iE/commanders/the-first-sliver.json?slug=the-first-sliver
+          - https://edhrec.com/_next/data/QE5GT7ktvZUN8d68r-9iE/commanders/the-first-sliver/slivers.json?slug=the-first-sliver&tag=slivers
       - name: Neheb
         moxfieldId: NKn9jQHm3EaQIuKPlKn1cA
         edhreclinks:
@@ -210,3 +210,10 @@ users:
         moxfieldId: I0PhX2o9wEegdYIid6p6bw
         edhreclinks:
           - https://edhrec.com/_next/data/iqHsHq824gKPfpgT0SO1t/commanders/miirym-sentinel-wyrm.json?slug=miirym-sentinel-wyrm
+      - name: Storm
+        moxfieldId: Zh0TbQMnKkWSkmpbmCTTvQ
+        edhreclinks:
+          - https://edhrec.com/_next/data/QE5GT7ktvZUN8d68r-9iE/commanders/storm-force-of-nature/spellslinger.json?slug=storm-force-of-nature&tag=spellslinger
+          - https://edhrec.com/_next/data/QE5GT7ktvZUN8d68r-9iE/commanders/storm-force-of-nature/storm.json?slug=storm-force-of-nature&tag=storm
+          - https://edhrec.com/_next/data/QE5GT7ktvZUN8d68r-9iE/commanders/storm-force-of-nature.json?slug=storm-force-of-nature
+          - https://edhrec.com/_next/data/QE5GT7ktvZUN8d68r-9iE/commanders/storm-force-of-nature/spell-copy.json?slug=storm-force-of-nature&tag=spell-copy
