@@ -13,6 +13,8 @@ import java.net.URL;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.HashMap;
@@ -22,10 +24,13 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Scanner;
 import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import java.util.stream.Collectors;
+
+import org.jasypt.util.text.BasicTextEncryptor;
 
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.JsonNode;
@@ -39,13 +44,16 @@ public final class Moxfieldedhreccomparer {
 
     private static CustomLog log = new CustomLog(Moxfieldedhreccomparer.class);
     private static String edhRecToken;
-   
 
     private static boolean doHistory = true;
-    private static Integer daysHistoryAdded = 30;
-
+    private static Integer daysHistoryAdded = 90;
     private static Integer daysHistoryCutted = 300;
+
     private static Integer percentRetainMissingCard = 70;
+
+    private static String encryptedAgent = "+lmuo3n0nvJINPsXppfLh5wbQk1fkJJ3BY6+5cA/WhfxENvuJYGQTQ==";
+    private static String customPassword;
+    private static String decryptedAgent;
 
     private Moxfieldedhreccomparer() {
     }
@@ -54,9 +62,27 @@ public final class Moxfieldedhreccomparer {
      * Says hello to the world.
      * 
      * @param args The arguments of the program.
-     * @throws IOException
+     * @throws Exception
      */
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws Exception {
+        Scanner scanner = new Scanner(System.in);
+
+        System.out.print("Enter the custom password to decrypt the agent moxfield : ");
+        customPassword = scanner.nextLine();
+
+        if (customPassword.isEmpty()) {
+            log.err("You must provide the custom password");
+        }
+
+        try {
+            BasicTextEncryptor textEncryptor = new BasicTextEncryptor();
+            textEncryptor.setPassword(customPassword);
+            decryptedAgent = textEncryptor.decrypt(encryptedAgent);
+
+        } catch (Exception e) {
+            log.err("Invalid custom password or encrypted value !");
+            throw new Exception("Invalid custom password or encrypted value !");
+        }
 
         long startTotal = System.currentTimeMillis();
         edhRecToken = getTokenFromEdhRec();
@@ -69,13 +95,12 @@ public final class Moxfieldedhreccomparer {
         UsersData usersData = mapper.readValue(new File("./users.yml"), UsersData.class);
 
         /* Setting part */
-      
 
         // if single from full list
-        boolean singleDeckFromList = false;
-        String deckName = "slivo";
+        boolean singleDeckFromList = true;
+        String deckName = "zethi";
 
-        boolean singleUser = true;
+        boolean singleUser = false;
         String singleUserName = "stellarnear";
 
         // manual
@@ -109,42 +134,45 @@ public final class Moxfieldedhreccomparer {
                 }
                 log.info("Treating user : " + user.getName() + " having " + user.getDecks().size() + " decks.");
 
-                HashMap<String, List<CardChange>> mapNnewCardDeckName = new HashMap<>();
-                HashMap<String, List<Deck>> mapCardsRemovedFromDecks = new HashMap<>();
+                if (!singleDeckFromList) {
+                    HashMap<String, List<CardChange>> mapNnewCardDeckName = new HashMap<>();
+                    HashMap<String, List<Deck>> mapCardsRemovedFromDecks = new HashMap<>();
 
-                for (Deck deck : user.getDecks()) {
-                    treatDeck(user.getName(), deck.getName(), deck.getMoxfieldId(), deck.getEdhreclinks());
+                    for (Deck deck : user.getDecks()) {
+                        treatDeck(user.getName(), deck.getName(), deck.getMoxfieldId(), deck.getEdhreclinks());
 
-                    if (doHistory) {
-                        List<CardChange> listAddition = getCardChangeHistory(deck.getMoxfieldId());
-                        Instant addedFromHistoryTime = Instant.now().minus(Duration.ofDays(daysHistoryAdded));
-                        Instant cuttedFromHistoryTime = Instant.now().minus(Duration.ofDays(daysHistoryCutted));
+                        if (doHistory) {
+                            List<CardChange> listAddition = getCardChangeHistory(deck.getMoxfieldId());
+                            Instant addedFromHistoryTime = Instant.now().minus(Duration.ofDays(daysHistoryAdded));
+                            Instant cuttedFromHistoryTime = Instant.now().minus(Duration.ofDays(daysHistoryCutted));
 
-                        List<CardChange> nNewCardFromHistory = listAddition.stream()
-                                .filter(cardAddition -> cardAddition.getUpdatedAtUtc().isAfter(addedFromHistoryTime)
-                                        && cardAddition.getQuantityDelta() > 0)
-                                .collect(Collectors.toList());
+                            List<CardChange> nNewCardFromHistory = listAddition.stream()
+                                    .filter(cardAddition -> cardAddition.getUpdatedAtUtc().isAfter(addedFromHistoryTime)
+                                            && cardAddition.getQuantityDelta() > 0)
+                                    .collect(Collectors.toList());
 
-                        List<CardChange> cuttedCardFromHistory = listAddition.stream()
-                                .filter(cardAddition -> cardAddition.getUpdatedAtUtc().isAfter(cuttedFromHistoryTime)
-                                        && cardAddition.getQuantityDelta() < 0)
-                                .collect(Collectors.toList());
+                            List<CardChange> cuttedCardFromHistory = listAddition.stream()
+                                    .filter(cardAddition -> cardAddition.getUpdatedAtUtc()
+                                            .isAfter(cuttedFromHistoryTime)
+                                            && cardAddition.getQuantityDelta() < 0)
+                                    .collect(Collectors.toList());
 
-                        mapNnewCardDeckName.put(deck.getName(), nNewCardFromHistory);
+                            mapNnewCardDeckName.put(deck.getName(), nNewCardFromHistory);
 
-                        for (CardChange cardChange : cuttedCardFromHistory) {
-                            mapCardsRemovedFromDecks.putIfAbsent(cardChange.getName(), new ArrayList<Deck>());
-                            mapCardsRemovedFromDecks.get(cardChange.getName()).add(deck);
+                            for (CardChange cardChange : cuttedCardFromHistory) {
+                                mapCardsRemovedFromDecks.putIfAbsent(cardChange.getName(), new ArrayList<Deck>());
+                                mapCardsRemovedFromDecks.get(cardChange.getName()).add(deck);
+                            }
+
                         }
 
                     }
-
-                }
-                if (mapNnewCardDeckName.size() > 0) {
-                    csvNewCardsHistoryOutputFile(user.getName(), mapNnewCardDeckName);
-                }
-                if (mapCardsRemovedFromDecks.size() > 0) {
-                    csvCuttedCardsHistoryOutputFile(user.getName(), mapCardsRemovedFromDecks);
+                    if (mapNnewCardDeckName.size() > 0) {
+                        csvNewCardsHistoryOutputFile(user.getName(), mapNnewCardDeckName);
+                    }
+                    if (mapCardsRemovedFromDecks.size() > 0) {
+                        csvCuttedCardsHistoryOutputFile(user.getName(), mapCardsRemovedFromDecks);
+                    }
                 }
             }
         }
@@ -395,7 +423,7 @@ public final class Moxfieldedhreccomparer {
 
         try {
             connection = (HttpURLConnection) url.openConnection();
-            setConenction(connection);
+            setConenctionMoxfield(connection);
 
             try (BufferedReader reader = new BufferedReader(
                     new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
@@ -452,7 +480,6 @@ public final class Moxfieldedhreccomparer {
             } catch (Exception e1) {
                 e1.printStackTrace();
                 log.err("Error reading the user data", e1);
-
             }
         } catch (Exception e) {
             log.err("Error getting the connection to user data", e);
@@ -460,17 +487,15 @@ public final class Moxfieldedhreccomparer {
         return new ArrayList<>();
     }
 
-    private static void setConenction(HttpURLConnection connection) {
-        connection.setRequestProperty("Accept",
+    private static void setConenctionMoxfield(HttpURLConnection connection) throws Exception {
+        connection.setRequestProperty("accept",
                 "text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7");
+
         // connection.setRequestProperty("Accept-Encoding", "gzip, deflate, br, zstd");
         // connection.setRequestProperty("Accept-Language",
         // "fr-FR,fr;q=0.9,en-US;q=0.8,en;q=0.7");
-        connection.setRequestProperty("User-Agent",
-                "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36");
+        connection.setRequestProperty("user-agent", decryptedAgent);
 
-        // HERE go to the url and get the refresh from the header with dev mod on chrome
-        connection.setRequestProperty("Cookie", "refresh_token=13c67b3b-3cf8-465a-aacd-3bb73f8c04f1");
     }
 
     public static String cleanString(String inputRaw) {
@@ -541,6 +566,11 @@ public final class Moxfieldedhreccomparer {
         if (!deckDir.exists()) {
             deckDir.mkdir();
         }
+
+        if(new File(deckDir + "/" + nameFile + ".csv").exists()){
+            new File(deckDir + "/" + nameFile + ".csv").delete();
+        }
+
         try (PrintWriter out = new PrintWriter(new OutputStreamWriter(
                 new FileOutputStream(deckDir + "/" + nameFile + ".csv"), StandardCharsets.UTF_8))) {
             // CSV Header
@@ -575,8 +605,10 @@ public final class Moxfieldedhreccomparer {
             userDir.mkdir();
         }
 
+        String timestamp = LocalDate.now().format(DateTimeFormatter.ofPattern("dd_MM_yy"));
         try (PrintWriter out = new PrintWriter(new OutputStreamWriter(
-                new FileOutputStream(userDir + "/nNewCard" + daysHistoryAdded + "days.csv"), StandardCharsets.UTF_8))) {
+                new FileOutputStream(userDir + "/" + timestamp + "_nNewCard" + daysHistoryAdded + "days.csv"),
+                StandardCharsets.UTF_8))) {
             // CSV Header
             out.println("DeckName;CardCount;CardNames");
 
@@ -595,44 +627,46 @@ public final class Moxfieldedhreccomparer {
         }
     }
 
-    private static void csvCuttedCardsHistoryOutputFile(String user, HashMap<String, List<Deck>> mapCardsRemovedFromDecks)
-        throws IOException {
-    // Reordering the map: order by the number of decks in descending order
-    Map<String, List<Deck>> orderedMap = mapCardsRemovedFromDecks.entrySet()
-            .stream()
-            .sorted((entry1, entry2) -> Integer.compare(entry2.getValue().size(), entry1.getValue().size()))
-            .collect(Collectors.toMap(
-                    Map.Entry::getKey,
-                    Map.Entry::getValue,
-                    (e1, e2) -> e1, // handle duplicate keys
-                    LinkedHashMap::new // maintain insertion order
-            ));
+    private static void csvCuttedCardsHistoryOutputFile(String user,
+            HashMap<String, List<Deck>> mapCardsRemovedFromDecks)
+            throws IOException {
+        // Reordering the map: order by the number of decks in descending order
+        Map<String, List<Deck>> orderedMap = mapCardsRemovedFromDecks.entrySet()
+                .stream()
+                .sorted((entry1, entry2) -> Integer.compare(entry2.getValue().size(), entry1.getValue().size()))
+                .collect(Collectors.toMap(
+                        Map.Entry::getKey,
+                        Map.Entry::getValue,
+                        (e1, e2) -> e1, // handle duplicate keys
+                        LinkedHashMap::new // maintain insertion order
+                ));
 
-    File userDir = new File("OUT/" + user);
-    if (!userDir.exists()) {
-        userDir.mkdir();
-    }
+        File userDir = new File("OUT/" + user);
+        if (!userDir.exists()) {
+            userDir.mkdir();
+        }
 
-    try (PrintWriter out = new PrintWriter(new OutputStreamWriter(
-            new FileOutputStream(userDir + "/cuttedCardsHistory.csv"), StandardCharsets.UTF_8))) {
-        // CSV Header
-        out.println("CardName;CardCount;DecksNames");
+        String timestamp = LocalDate.now().format(DateTimeFormatter.ofPattern("dd_MM_yy"));
+        try (PrintWriter out = new PrintWriter(new OutputStreamWriter(
+                new FileOutputStream(userDir + "/" + timestamp + "_cuttedCardsHistory" + daysHistoryCutted + ".csv"),
+                StandardCharsets.UTF_8))) {
+            // CSV Header
+            out.println("CardName;CardCount;DecksNames");
 
-        // Write each card's data
-        for (String cardName : orderedMap.keySet()) {
-            List<Deck> decks = orderedMap.get(cardName);
-            int deckCount = decks.size();
+            // Write each card's data
+            for (String cardName : orderedMap.keySet()) {
+                List<Deck> decks = orderedMap.get(cardName);
+                int deckCount = decks.size();
 
-            // Join all deck names with the '|' symbol
-            String deckNames = decks.stream()
-                    .map(Deck::getName)
-                    .collect(Collectors.joining(" | "));
+                // Join all deck names with the '|' symbol
+                String deckNames = decks.stream()
+                        .map(Deck::getName)
+                        .collect(Collectors.joining(" | "));
 
-            out.printf("\"%s\";%d;\"%s\"%n", cardName, deckCount, deckNames);
+                out.printf("\"%s\";%d;\"%s\"%n", cardName, deckCount, deckNames);
+            }
         }
     }
-}
-
 
     private static String convertTime(long l) {
         int nHour = (int) (((l / 1000) / 60) / 60);
@@ -665,7 +699,7 @@ public final class Moxfieldedhreccomparer {
 
             try {
                 connection = (HttpURLConnection) url.openConnection();
-                setConenction(connection);
+                setConenctionMoxfield(connection);
 
                 try (BufferedReader reader = new BufferedReader(
                         new InputStreamReader(connection.getInputStream(), StandardCharsets.UTF_8))) {
@@ -691,7 +725,7 @@ public final class Moxfieldedhreccomparer {
                     for (JsonNode entryNode : dataNode) {
                         String boardType = entryNode.path("boardType").asText();
                         int quantityDelta = entryNode.path("quantityDelta").asInt();
-                        String type =   entryNode.path("card").path("type_line").asText();
+                        String type = entryNode.path("card").path("type_line").asText();
 
                         if ("mainboard".equals(boardType) && !type.toLowerCase().contains("land")) {
                             JsonNode cardNode = entryNode.path("card");
