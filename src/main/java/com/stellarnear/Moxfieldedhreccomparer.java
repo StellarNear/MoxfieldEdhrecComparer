@@ -98,10 +98,10 @@ public final class Moxfieldedhreccomparer {
 
         // if single from full list
         boolean singleDeckFromList = true;
-        String deckName = "zethi";
+        String deckName = "Anikthea";
 
         boolean singleUser = false;
-        String singleUserName = "stellarnear";
+        String singleUserName = "Kortow";
 
         // manual
         // boolean manualSetting = false;
@@ -245,7 +245,7 @@ public final class Moxfieldedhreccomparer {
     }
 
     private static void treatDeck(String user, String name, String publicMoxfieldId, List<String> edhRecPages)
-            throws IOException {
+            throws IOException, InterruptedException {
         log.info("Treating deck " + name);
         long startDeck = System.currentTimeMillis();
         List<Card> allDeckCards = getDeckListFor(publicMoxfieldId);
@@ -322,6 +322,10 @@ public final class Moxfieldedhreccomparer {
 
         csvOutput(user, name, allDeckCards, "AllCards");
 
+        List<Card> allDeckCardsExceptLands = allDeckCards.stream().filter(card -> !card.getType_line().toLowerCase().contains("land")).collect(Collectors.toList());
+        
+        csvOutput(user, name, allDeckCardsExceptLands, "AllCardsButLands");
+
         if (missing.size() > 0) {
             csvOutput(user, name, missing, "Missings");
             log.warn("We have " + missing.size() + " missing cards !");
@@ -333,7 +337,7 @@ public final class Moxfieldedhreccomparer {
                 + ((int) (100.0 * ((1.0 * nData) / (1.0 * allDeckCards.size())))) + " %).");
     }
 
-    private static void addCardFromEdhrec(Map<String, Card> mapNameCard, String oldEdhUrl) {
+    private static void addCardFromEdhrec(Map<String, Card> mapNameCard, String oldEdhUrl) throws InterruptedException {
         HttpURLConnection connection = null;
         try {
 
@@ -412,10 +416,11 @@ public final class Moxfieldedhreccomparer {
             if (connection != null) {
                 connection.disconnect();
             }
+            Thread.sleep(1000);
         }
     }
 
-    private static List<Card> getDeckListFor(String publicId) throws MalformedURLException {
+    private static List<Card> getDeckListFor(String publicId) throws MalformedURLException, InterruptedException {
         // ex https://api.moxfield.com/v2/decks/all/HxV33izihky7KTwjU0ER9w
         String deckUrl = "https://api.moxfield.com/v2/decks/all/" + publicId;
         URL url = new URL(deckUrl);
@@ -483,6 +488,8 @@ public final class Moxfieldedhreccomparer {
             }
         } catch (Exception e) {
             log.err("Error getting the connection to user data", e);
+        } finally {
+            Thread.sleep(1000);
         }
         return new ArrayList<>();
     }
@@ -567,7 +574,7 @@ public final class Moxfieldedhreccomparer {
             deckDir.mkdir();
         }
 
-        if(new File(deckDir + "/" + nameFile + ".csv").exists()){
+        if (new File(deckDir + "/" + nameFile + ".csv").exists()) {
             new File(deckDir + "/" + nameFile + ".csv").delete();
         }
 

@@ -43,6 +43,11 @@ users:
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/sauron-the-dark-lord.json?slug=sauron-the-dark-lord
   - name: Stellarnear
     decks:
+      - name: Giada
+        moxfieldId: jSLw5ARhOUSWyhwdPQx2lQ
+        edhreclinks:
+          - https://edhrec.com/_next/data/yR0DzArUXmtbMV4HJhba8/commanders/giada-font-of-hope/angels.json?slug=giada-font-of-hope&tag=angels
+          - https://edhrec.com/_next/data/yR0DzArUXmtbMV4HJhba8/commanders/giada-font-of-hope.json?slug=giada-font-of-hope
       - name: Feather
         moxfieldId: xveOnGFOsE2A9eI1jmk6IQ
         edhreclinks:
@@ -121,8 +126,8 @@ users:
       - name: Gale
         moxfieldId: JJmWQqBaWUqN24LcsXX9_Q
         edhreclinks:
-          - https://edhrec.com/_next/data/8oLyoc0ekiJegXH_pWNJ9/commanders/gale-waterdeep-prodigy-scion-of-halaster/spellslinger.json?slug=gale-waterdeep-prodigy-scion-of-halaster&tag=spellslinger
-          - https://edhrec.com/_next/data/8oLyoc0ekiJegXH_pWNJ9/commanders/gale-waterdeep-prodigy-scion-of-halaster.json?slug=gale-waterdeep-prodigy-scion-of-halaster
+          - https://edhrec.com/_next/data/azRPaRiEu9XIyfiMYRbrq/commanders/gale-waterdeep-prodigy-scion-of-halaster/spellslinger.json?slug=gale-waterdeep-prodigy-scion-of-halaster&tag=spellslinger
+          - https://edhrec.com/_next/data/azRPaRiEu9XIyfiMYRbrq/commanders/gale-waterdeep-prodigy-scion-of-halaster.json?slug=gale-waterdeep-prodigy-scion-of-halaster
       - name: Zedruu
         moxfieldId: MDQ-_BZSVkG4pqbzg4-MNg
         edhreclinks:
@@ -161,8 +166,9 @@ users:
         moxfieldId: kJcEKNJ3P0eZRVVQHdHzeg
         edhreclinks:
           - https://edhrec.com/_next/data/dCr3y7rNEFHOq9hT-pp3F/commanders/yuriko-the-tigers-shadow.json?slug=yuriko-the-tigers-shadow
-          - https://edhrec.com/_next/data/dCr3y7rNEFHOq9hT-pp3F/commanders/yuriko-the-tigers-shadow/ninjutsu.json?slug=yuriko-the-tigers-shadow&tag=ninjutsu
-          - https://edhrec.com/_next/data/zbGzmBP0ZUUtEjN_9ofXQ/commanders/yuriko-the-tigers-shadow/ninjas.json?slug=yuriko-the-tigers-shadow&tag=ninjas
+          - https://edhrec.com/_next/data/yR0DzArUXmtbMV4HJhba8/commanders/yuriko-the-tigers-shadow/cedh.json?slug=yuriko-the-tigers-shadow&tag=cedh
+          #- https://edhrec.com/_next/data/dCr3y7rNEFHOq9hT-pp3F/commanders/yuriko-the-tigers-shadow/ninjutsu.json?slug=yuriko-the-tigers-shadow&tag=ninjutsu
+          #- https://edhrec.com/_next/data/zbGzmBP0ZUUtEjN_9ofXQ/commanders/yuriko-the-tigers-shadow/ninjas.json?slug=yuriko-the-tigers-shadow&tag=ninjas
       - name: Zethi
         moxfieldId: 9AYzD7WrYki4yDLgIGhBAA
         edhreclinks:
@@ -173,6 +179,26 @@ users:
         edhreclinks:
           - https://edhrec.com/_next/data/zbGzmBP0ZUUtEjN_9ofXQ/commanders/roxanne-starfall-savant/treasure.json?slug=roxanne-starfall-savant&tag=treasure
           - https://edhrec.com/_next/data/zbGzmBP0ZUUtEjN_9ofXQ/commanders/roxanne-starfall-savant.json?slug=roxanne-starfall-savant
+      - name: Arahbo
+        moxfieldId: gFVhFO-DLEa5_YThZ8BjJw
+        edhreclinks:
+          - https://edhrec.com/_next/data/azRPaRiEu9XIyfiMYRbrq/commanders/arahbo-roar-of-the-world/cats.json?slug=arahbo-roar-of-the-world&tag=cats
+          - https://edhrec.com/_next/data/azRPaRiEu9XIyfiMYRbrq/commanders/arahbo-roar-of-the-world.json?slug=arahbo-roar-of-the-world
+      - name: Be'lakor
+        moxfieldId: OvTRCg1wrUmF3q6yGUc_gg
+        edhreclinks:
+          - https://edhrec.com/_next/data/azRPaRiEu9XIyfiMYRbrq/commanders/belakor-the-dark-master/demons.json?slug=belakor-the-dark-master&tag=demons
+          - https://edhrec.com/_next/data/azRPaRiEu9XIyfiMYRbrq/commanders/belakor-the-dark-master.json?slug=belakor-the-dark-master
+      - name: Ur
+        moxfieldId: ffurnYAM4EqmFmBDQvczrQ
+        edhreclinks:
+          - https://edhrec.com/_next/data/azRPaRiEu9XIyfiMYRbrq/commanders/the-ur-dragon/dragons.json?slug=the-ur-dragon&tag=dragons
+          - https://edhrec.com/_next/data/azRPaRiEu9XIyfiMYRbrq/commanders/the-ur-dragon.json?slug=the-ur-dragon
+      - name: Anikthea
+        moxfieldId: ChZb5YMuOEWLQK2ccfRKLA
+        edhreclinks:
+          - https://edhrec.com/_next/data/KtGxzdgkEXU5cPDELziF7/commanders/anikthea-hand-of-erebos.json?slug=anikthea-hand-of-erebos
+          - https://edhrec.com/_next/data/KtGxzdgkEXU5cPDELziF7/commanders/anikthea-hand-of-erebos/enchantress.json?slug=anikthea-hand-of-erebos&tag=enchantress
   - name: Juicy
     decks:
       - name: Aragorn
@@ -197,7 +223,6 @@ users:
       - name: Animar
         moxfieldId: 66jcv-8J8EaHh8us5BvENQ
         edhreclinks:
-          - https://edhrec.com/_next/data/w8K9u-m5F3jRsu8uflilq/commanders/animar-soul-of-elements/expensive.json?slug=animar-soul-of-elements&tag=expensive
           - https://edhrec.com/_next/data/w8K9u-m5F3jRsu8uflilq/commanders/animar-soul-of-elements.json?slug=animar-soul-of-elements
       - name: Captain
         moxfieldId: OmaIq7LxJ0KRGcKNAcTBSw
@@ -218,3 +243,23 @@ users:
           - https://edhrec.com/_next/data/QE5GT7ktvZUN8d68r-9iE/commanders/storm-force-of-nature.json?slug=storm-force-of-nature
           - https://edhrec.com/_next/data/QE5GT7ktvZUN8d68r-9iE/commanders/storm-force-of-nature/spell-copy.json?slug=storm-force-of-nature&tag=spell-copy
           - https://edhrec.com/_next/data/QE5GT7ktvZUN8d68r-9iE/commanders/storm-force-of-nature/extra-combats.json?slug=storm-force-of-nature&tag=extra-combats
+  - name: Kortow
+    decks:
+      - name: Meren
+        moxfieldId: -CLW1jH5dk6UnBsVTWbf6g
+        edhreclinks:
+          - https://edhrec.com/_next/data/vYEsFEqHnLat3B7MmMSbq/commanders/meren-of-clan-nel-toth/aristocrats.json?slug=meren-of-clan-nel-toth&tag=aristocrats
+          - https://edhrec.com/_next/data/vYEsFEqHnLat3B7MmMSbq/commanders/meren-of-clan-nel-toth.json?slug=meren-of-clan-nel-toth
+      - name: Hazel
+        moxfieldId: l_JZKt4M5UeL4P_ryBddJA
+        edhreclinks:
+          - https://edhrec.com/_next/data/vYEsFEqHnLat3B7MmMSbq/commanders/hazel-of-the-rootbloom.json?slug=hazel-of-the-rootbloom
+      - name: Kutzil
+        moxfieldId: Ail76gRTcEWwi9YE5L_ecg
+        edhreclinks:
+          - https://edhrec.com/_next/data/vYEsFEqHnLat3B7MmMSbq/commanders/kutzil-malamet-exemplar/plus-1-plus-1-counters.json?slug=kutzil-malamet-exemplar&tag=plus-1-plus-1-counters
+          - https://edhrec.com/_next/data/vYEsFEqHnLat3B7MmMSbq/commanders/kutzil-malamet-exemplar.json?slug=kutzil-malamet-exemplar
+      - name: Elenda
+        moxfieldId: WIYa19UbkU-JKobk0-WRrQ
+        edhreclinks:
+          - https://edhrec.com/_next/data/roYvnqYi_z_57V5N4XPml/commanders/elenda-the-dusk-rose/vampires.json?slug=elenda-the-dusk-rose&tag=vampires
