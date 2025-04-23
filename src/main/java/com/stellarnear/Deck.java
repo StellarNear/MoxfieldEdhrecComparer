@@ -6,8 +6,18 @@ public class Deck {
     private String name;
     private String moxfieldId;
     private List<String> edhreclinks;
+	public Deck() {
+	}
 
-    // Getters and setters
+    public Deck(String nameIn, String publicId) {
+		this.name=nameIn;
+		this.moxfieldId=publicId;
+		this.edhreclinks= null;
+	}
+
+
+
+	// Getters and setters
     public String getName() {
         return name;
     }

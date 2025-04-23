@@ -1,5 +1,5 @@
 users:
-  - name: KhoCarnage
+  - name: Kh0Carnage
     decks:
       - name: KarlOmax
         moxfieldId: bC_Qt7ro606_Vadz7ZtX6A
@@ -18,7 +18,7 @@ users:
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/esika-god-of-the-tree.json?slug=esika-god-of-the-tree
       - name:  XenaGod
         moxfieldId: lA6C200nxkGDQr85Cq519Q
-        edhreclinks: 
+        edhreclinks:
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/xenagos-god-of-revels/extra-combats.json?slug=xenagos-god-of-revels&tag=extra-combats
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/xenagos-god-of-revels.json?slug=xenagos-god-of-revels
       - name: Kros
@@ -41,7 +41,7 @@ users:
         edhreclinks:
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/sauron-the-dark-lord/zombie-tokens.json?slug=sauron-the-dark-lord&tag=zombie-tokens
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/sauron-the-dark-lord.json?slug=sauron-the-dark-lord
-  - name: Stellarnear
+  - name: StellarNear
     decks:
       - name: Giada
         moxfieldId: jSLw5ARhOUSWyhwdPQx2lQ
@@ -58,7 +58,7 @@ users:
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/kaalia-of-the-vast.json?slug=kaalia-of-the-vast
       - name: KaaliaQueen
         moxfieldId: Abs5CDQbekG22B0-Ltn4yQ
-        edhreclinks: 
+        edhreclinks:
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/kaalia-of-the-vast.json?slug=kaalia-of-the-vast
       - name: Prosper
         moxfieldId: puj2MmJ25k6yk9CE6UL2DQ
@@ -122,7 +122,7 @@ users:
         edhreclinks:
           - https://edhrec.com/_next/data/8oLyoc0ekiJegXH_pWNJ9/commanders/stella-lee-wild-card/spellslinger.json?slug=stella-lee-wild-card&tag=spellslinger
           - https://edhrec.com/_next/data/8oLyoc0ekiJegXH_pWNJ9/commanders/stella-lee-wild-card.json?slug=stella-lee-wild-card
-          - https://edhrec.com/_next/data/8oLyoc0ekiJegXH_pWNJ9/commanders/stella-lee-wild-card/spell-copy.json?slug=stella-lee-wild-card&tag=spell-copy      
+          - https://edhrec.com/_next/data/8oLyoc0ekiJegXH_pWNJ9/commanders/stella-lee-wild-card/spell-copy.json?slug=stella-lee-wild-card&tag=spell-copy
       - name: Gale
         moxfieldId: JJmWQqBaWUqN24LcsXX9_Q
         edhreclinks:
@@ -199,7 +199,7 @@ users:
         edhreclinks:
           - https://edhrec.com/_next/data/KtGxzdgkEXU5cPDELziF7/commanders/anikthea-hand-of-erebos.json?slug=anikthea-hand-of-erebos
           - https://edhrec.com/_next/data/KtGxzdgkEXU5cPDELziF7/commanders/anikthea-hand-of-erebos/enchantress.json?slug=anikthea-hand-of-erebos&tag=enchantress
-  - name: Juicy
+  - name: juicymrs13
     decks:
       - name: Aragorn
         moxfieldId: CI4gnsXsh0OC7t-orVGrlw
@@ -208,7 +208,7 @@ users:
           - https://edhrec.com/_next/data/jVkjEXfIo9IX86pGstZK6/commanders/aragorn-the-uniter.json?slug=aragorn-the-uniter
       - name: FoodAndFellowship
         moxfieldId: You5jFaOd06WwppTMNbq_g
-        edhreclinks: 
+        edhreclinks:
           - https://edhrec.com/_next/data/jVkjEXfIo9IX86pGstZK6/commanders/frodo-adventurous-hobbit-sam-loyal-attendant.json?slug=frodo-adventurous-hobbit-sam-loyal-attendant
           - https://edhrec.com/_next/data/jVkjEXfIo9IX86pGstZK6/commanders/frodo-adventurous-hobbit-sam-loyal-attendant/lifegain.json?slug=frodo-adventurous-hobbit-sam-loyal-attendant&tag=lifegain
       - name: Kykar
@@ -263,3 +263,4 @@ users:
         moxfieldId: WIYa19UbkU-JKobk0-WRrQ
         edhreclinks:
           - https://edhrec.com/_next/data/roYvnqYi_z_57V5N4XPml/commanders/elenda-the-dusk-rose/vampires.json?slug=elenda-the-dusk-rose&tag=vampires
+  - name: Nonoein

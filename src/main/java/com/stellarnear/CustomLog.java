@@ -50,7 +50,7 @@ public class CustomLog {
             LogMsg logMsg = new LogMsg(Level.DEBUG, msg);
             allLogs.add(logMsg);
             processDisplay(logMsg);
-        } 
+        }
     }
 
     public void info(String msg) {
@@ -88,7 +88,7 @@ public class CustomLog {
         processDisplay(logMsg);
     }
 
-    
+
 
     public void fatal(String msg, Exception e) {
         LogMsg logMsg = new LogMsg(Level.FATAL_ERROR, msg, e);
@@ -164,12 +164,20 @@ public class CustomLog {
             }
             return line;
         }
+
+		public Level getLevel() {
+			return level;
+		}
     }
 
-    private enum Level {
+    enum Level {
         DEBUG, INFO, WARN, ERROR, FATAL_ERROR
     }
 
-  
+	public void display(LogMsg logEntry) {
+		processDisplay(logEntry);
+	}
+
+
 
 }
