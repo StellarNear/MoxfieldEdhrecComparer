@@ -332,29 +332,29 @@ public final class Moxfieldedhreccomparer {
 				}
 			}
 
-			csvOutput(user, name, crea, "Creatures");
+			htmlOutputFile(user, name, crea, "Creatures");
 
-			csvOutput(user, name, sorcery, "Sorceries");
+			htmlOutputFile(user, name, sorcery, "Sorceries");
 
-			csvOutput(user, name, instant, "Instants");
+			htmlOutputFile(user, name, instant, "Instants");
 
-			csvOutput(user, name, artifact, "Artifacts");
+			htmlOutputFile(user, name, artifact, "Artifacts");
 
-			csvOutput(user, name, land, "Lands");
+			htmlOutputFile(user, name, land, "Lands");
 
-			csvOutput(user, name, enchantment, "Enchantments");
+			htmlOutputFile(user, name, enchantment, "Enchantments");
 
-			csvOutput(user, name, misc, "Miscs");
+			htmlOutputFile(user, name, misc, "Miscs");
 
-			csvOutput(user, name, allDeckCards, "AllCards");
+			htmlOutputFile(user, name, allDeckCards, "AllCards");
 
 			List<Card> allDeckCardsExceptLands = allDeckCards.stream()
 					.filter(card -> !card.getType_line().toLowerCase().contains("land")).collect(Collectors.toList());
 
-			csvOutput(user, name, allDeckCardsExceptLands, "AllCardsButLands");
+			htmlOutputFile(user, name, allDeckCardsExceptLands, "AllCardsButLands");
 
 			if (missing.size() > 0) {
-				csvOutput(user, name, missing, "Missings");
+				htmlOutputFile(user, name, missing, "Missings");
 				for (Card card : missing) {
 					log.warn("User " + user + ", Deck [" + name + "] don't have [" + card.getName()
 							+ "] which is played on more than " + percentRetainMissingCard + " % of the EDHRec decks");
@@ -614,16 +614,10 @@ public final class Moxfieldedhreccomparer {
 		return false;
 	}
 
-	private static void csvOutput(String user, String nameDeck, List<Card> allCards, String nameFile)
-			throws IOException {
-		csvOutputFile(user, nameDeck, allCards, nameFile + "_alphabetical");
-		allCards.sort(Comparator.comparing(Card::getPercentPresentDeck));
-		csvOutputFile(user, nameDeck, allCards, nameFile + "_usage_percent");
-	}
 
-	private static void csvOutputFile(String user, String nameDeck, List<Card> allCards, String nameFile)
+	private static void htmlOutputFile(String user, String nameDeck, List<Card> allCards, String nameFile)
 			throws IOException {
-
+				
 		File userDir = new File("OUT/" + user);
 		if (!userDir.exists()) {
 			userDir.mkdir();
@@ -636,23 +630,6 @@ public final class Moxfieldedhreccomparer {
 		File csvFile = new File(deckDir, nameFile + ".csv");
 		if (csvFile.exists()) {
 			csvFile.delete();
-		}
-
-		// === CSV EXPORT ===
-		try (PrintWriter out = new PrintWriter(new OutputStreamWriter(
-				new FileOutputStream(csvFile), StandardCharsets.UTF_8))) {
-
-			// CSV Header
-			out.println("CardName;PercentPresence;Ndeck;Synergy");
-
-			// Write each card's data
-			for (Card card : allCards) {
-				out.printf("\"%s\";%d;%d;%d%n",
-						card.getName(),
-						card.getPercentPresentDeck(),
-						card.getnDeck(),
-						card.getSynergyPercent());
-			}
 		}
 
 		// === HTML EXPORT ===
@@ -675,7 +652,8 @@ public final class Moxfieldedhreccomparer {
 			html.println(
 					"table { border-collapse: collapse; width: 100%; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }");
 			html.println("th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }");
-			html.println("th { background-color: #4CAF50; color: white; }");
+			html.println("th { background-color: #4CAF50; color: white; cursor: pointer; position: relative; }");
+			html.println("th:hover { background-color: #45a049; }");
 			html.println("tr:nth-child(even) { background-color: #f2f2f2; }");
 			html.println(".card-name { position: relative; cursor: pointer; color: #2a72d4; font-weight: bold; }");
 			html.println(".card-name:hover .card-image { display: block; }");
@@ -684,12 +662,22 @@ public final class Moxfieldedhreccomparer {
 			html.println(
 					"  border: 1px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.3); z-index: 10; background: white; }");
 			html.println(".card-image img { width: 240px; height: auto; border-radius: 4px; }");
+			html.println(".sort-arrow { position: absolute; right: 8px; font-size: 12px; }");
 			html.println("</style>");
 			html.println("</head>");
 			html.println("<body>");
 			html.println("<h2>" + nameDeck + " - " + nameFile + "</h2>");
-			html.println("<table>");
-			html.println("<tr><th>Card Name</th><th>Percent Presence</th><th>Ndeck</th><th>Synergy</th></tr>");
+			html.println("<table id='cardTable'>");
+			html.println("<thead>");
+			html.println("<tr>");
+			html.println("<th onclick='sortTable(0, \"string\")'>Card Name<span class='sort-arrow'>⇅</span></th>");
+			html.println(
+					"<th onclick='sortTable(1, \"number\")'>Percent Presence<span class='sort-arrow'>⇅</span></th>");
+			html.println("<th onclick='sortTable(2, \"number\")'>Ndeck<span class='sort-arrow'>⇅</span></th>");
+			html.println("<th onclick='sortTable(3, \"number\")'>Synergy<span class='sort-arrow'>⇅</span></th>");
+			html.println("</tr>");
+			html.println("</thead>");
+			html.println("<tbody>");
 
 			for (Card card : allCards) {
 				html.println("<tr>");
@@ -702,12 +690,40 @@ public final class Moxfieldedhreccomparer {
 				html.println("</tr>");
 			}
 
+			html.println("</tbody>");
 			html.println("</table>");
+
+			// Add a lightweight sorting script
+			html.println("<script>");
+			html.println("function sortTable(columnIndex, type) {");
+			html.println("  var table = document.getElementById('cardTable');");
+			html.println("  var rows = Array.from(table.rows).slice(1);"); // skip header
+			html.println("  var asc = table.getAttribute('data-sort-dir') !== 'asc';");
+			html.println("  rows.sort(function(a, b) {");
+			html.println("    var x = a.cells[columnIndex].innerText.trim();");
+			html.println("    var y = b.cells[columnIndex].innerText.trim();");
+			html.println("    if (type === 'number') {");
+			html.println("      x = parseFloat(x.replace('%', '')) || 0;");
+			html.println("      y = parseFloat(y.replace('%', '')) || 0;");
+			html.println("    }");
+			html.println("    if (type === 'string') {");
+			html.println("      x = x.toLowerCase(); y = y.toLowerCase();");
+			html.println("    }");
+			html.println("    if (x < y) return asc ? -1 : 1;");
+			html.println("    if (x > y) return asc ? 1 : -1;");
+			html.println("    return 0;");
+			html.println("  });");
+			html.println("  for (let i = 0; i < rows.length; i++) table.tBodies[0].appendChild(rows[i]);");
+			html.println("  table.setAttribute('data-sort-dir', asc ? 'asc' : 'desc');");
+			html.println("}");
+			html.println("</script>");
+
 			html.println("</body>");
 			html.println("</html>");
 		}
 	}
 
+	
 	/**
 	 * Escapes HTML special characters to prevent broken markup.
 	 */
