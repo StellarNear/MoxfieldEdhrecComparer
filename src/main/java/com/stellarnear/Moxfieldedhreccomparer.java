@@ -53,11 +53,11 @@ public final class Moxfieldedhreccomparer {
 
 	private static boolean doHistory = true;
 	private static Integer daysHistoryAdded = 90;
-	private static Integer daysHistoryCutted = 300;
+	private static Integer daysHistoryCutted = 600;
 
-	private static Integer percentRetainMissingCard = 75;
+	private static Integer percentRetainMissingCard = 60;
 
-	private static String encryptedAgent = "+lmuo3n0nvJINPsXppfLh5wbQk1fkJJ3BY6+5cA/WhfxENvuJYGQTQ==";
+	private static String encryptedAgent = "lHAefqq+VW+GqIOzGqBz0oynoeez7psrip6XXYu1CeCnGIUznEHN5cCHFg2LR+X1";
 	private static String customPassword;
 	private static String decryptedAgent;
 	private static List<String> gameChangers;
@@ -76,7 +76,7 @@ public final class Moxfieldedhreccomparer {
 
 		System.out.print("Enter the custom password to decrypt the agent moxfield : ");
 		customPassword = scanner.nextLine();
-
+		scanner.close();
 		if (customPassword.isEmpty()) {
 			log.err("You must provide the custom password");
 		}
@@ -105,10 +105,10 @@ public final class Moxfieldedhreccomparer {
 
 		// if single from full list
 		boolean singleDeckFromList = false;
-		String deckName = "Pako";
+		String deckName = "Y'Shtola";
 
-		boolean singleUser = false;
-		String singleUserName = "Nonoein";
+		boolean singleUser = true;
+		String singleUserName = "stellarnear";
 
 		// manual
 		// boolean manualSetting = false;
@@ -126,7 +126,8 @@ public final class Moxfieldedhreccomparer {
 
 		if (singleDeckFromList) {
 			for (User user : usersData.getUsers()) {
-				for (Deck deck : user.getDecks()) {
+				List<Deck> userDecks = buildDeckListForUser(user);
+				for (Deck deck : userDecks) {
 					if (deck.getName().equalsIgnoreCase(deckName)) {
 						treatDeck(user.getName(), deck);
 					}
@@ -187,15 +188,16 @@ public final class Moxfieldedhreccomparer {
 			}
 		}
 
-		long endTotal = System.currentTimeMillis();
-		log.info("MoxfieldEdhComparer ended it took a total time of " + convertTime(endTotal - startTotal));
-
 		log.info("Summary of warnings and errors :");
 		for (LogMsg logEntry : log.getAllLogs()) {
 			if (logEntry.getLevel().equals(Level.WARN) || logEntry.getLevel().equals(Level.ERROR)) {
 				log.display(logEntry);
 			}
 		}
+
+		long endTotal = System.currentTimeMillis();
+		log.info("MoxfieldEdhComparer ended it took a total time of " + convertTime(endTotal - startTotal));
+
 	}
 
 	private static String getTokenFromEdhRec() {
@@ -273,7 +275,7 @@ public final class Moxfieldedhreccomparer {
 		List<Card> allDeckCards = getDeckListFor(publicMoxfieldId);
 
 		int nData = 0;
-		if (edhRecPages != null && edhRecPages.size() > 1) {
+		if (edhRecPages != null && edhRecPages.size() > 0) {
 			Map<String, Card> nameCardStat = new HashMap<>();
 			for (String edhUrl : edhRecPages) {
 				addCardFromEdhrec(nameCardStat, edhUrl);
@@ -414,8 +416,9 @@ public final class Moxfieldedhreccomparer {
 								int potentialDecks = cardNode.path("potential_decks").asInt();
 								int percent = (int) (100.0 * ((1.0 * numDecks) / (1.0 * potentialDecks)));
 								int synergPercent = (int) (1.0 * synergy * 100.0);
+								String id = cardNode.path("id").asText();
 
-								Card card = new Card(name, numDecks, percent, synergPercent);
+								Card card = new Card(name, numDecks, percent, synergPercent, id);
 
 								if (mapNameCard.containsKey(name)) {
 									Card stored = mapNameCard.get(name);
@@ -511,8 +514,9 @@ public final class Moxfieldedhreccomparer {
 							});
 
 					String commanderLegality = cardNode.path("legalities").path("commander").asText();
+					String scryfall_id = cardNode.path("scryfall_id").asText();
 					Card card = new Card(name, rarity, mana_cost, cmc, type_line, color_identity, commanderLegality,
-							oracle_text);
+							oracle_text, scryfall_id);
 					deckCards.add(card);
 
 					if (!commanderLegality.equalsIgnoreCase("legal")) {
@@ -629,12 +633,15 @@ public final class Moxfieldedhreccomparer {
 			deckDir.mkdir();
 		}
 
-		if (new File(deckDir + "/" + nameFile + ".csv").exists()) {
-			new File(deckDir + "/" + nameFile + ".csv").delete();
+		File csvFile = new File(deckDir, nameFile + ".csv");
+		if (csvFile.exists()) {
+			csvFile.delete();
 		}
 
+		// === CSV EXPORT ===
 		try (PrintWriter out = new PrintWriter(new OutputStreamWriter(
-				new FileOutputStream(deckDir + "/" + nameFile + ".csv"), StandardCharsets.UTF_8))) {
+				new FileOutputStream(csvFile), StandardCharsets.UTF_8))) {
+
 			// CSV Header
 			out.println("CardName;PercentPresence;Ndeck;Synergy");
 
@@ -647,6 +654,71 @@ public final class Moxfieldedhreccomparer {
 						card.getSynergyPercent());
 			}
 		}
+
+		// === HTML EXPORT ===
+		File htmlFile = new File(deckDir, nameFile + ".html");
+		if (htmlFile.exists()) {
+			htmlFile.delete();
+		}
+
+		try (PrintWriter html = new PrintWriter(new OutputStreamWriter(
+				new FileOutputStream(htmlFile), StandardCharsets.UTF_8))) {
+
+			html.println("<!DOCTYPE html>");
+			html.println("<html lang=\"en\">");
+			html.println("<head>");
+			html.println("<meta charset=\"UTF-8\">");
+			html.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
+			html.println("<title>" + nameDeck + " - " + nameFile + "</title>");
+			html.println("<style>");
+			html.println("body { font-family: Arial, sans-serif; background: #f9f9f9; color: #333; padding: 20px; }");
+			html.println(
+					"table { border-collapse: collapse; width: 100%; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }");
+			html.println("th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }");
+			html.println("th { background-color: #4CAF50; color: white; }");
+			html.println("tr:nth-child(even) { background-color: #f2f2f2; }");
+			html.println(".card-name { position: relative; cursor: pointer; color: #2a72d4; font-weight: bold; }");
+			html.println(".card-name:hover .card-image { display: block; }");
+			html.println(
+					".card-image { display: none; position: absolute; top: 120%; left: 50%; transform: translateX(-50%);");
+			html.println(
+					"  border: 1px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.3); z-index: 10; background: white; }");
+			html.println(".card-image img { width: 240px; height: auto; border-radius: 4px; }");
+			html.println("</style>");
+			html.println("</head>");
+			html.println("<body>");
+			html.println("<h2>" + nameDeck + " - " + nameFile + "</h2>");
+			html.println("<table>");
+			html.println("<tr><th>Card Name</th><th>Percent Presence</th><th>Ndeck</th><th>Synergy</th></tr>");
+
+			for (Card card : allCards) {
+				html.println("<tr>");
+				html.println("<td class='card-name'>" + escapeHtml(card.getName())
+						+ "<div class='card-image'><img src='" + escapeHtml(card.getScryfallImg()) + "' alt='"
+						+ escapeHtml(card.getName()) + "'></div></td>");
+				html.println("<td>" + card.getPercentPresentDeck() + "%</td>");
+				html.println("<td>" + card.getnDeck() + "</td>");
+				html.println("<td>" + card.getSynergyPercent() + "%</td>");
+				html.println("</tr>");
+			}
+
+			html.println("</table>");
+			html.println("</body>");
+			html.println("</html>");
+		}
+	}
+
+	/**
+	 * Escapes HTML special characters to prevent broken markup.
+	 */
+	private static String escapeHtml(String s) {
+		if (s == null)
+			return "";
+		return s.replace("&", "&amp;")
+				.replace("<", "&lt;")
+				.replace(">", "&gt;")
+				.replace("\"", "&quot;")
+				.replace("'", "&#39;");
 	}
 
 	private static void csvNewCardsHistoryOutputFile(String user, HashMap<String, List<CardChange>> mapNnewCardDeckName)
@@ -795,7 +867,7 @@ public final class Moxfieldedhreccomparer {
 	}
 
 	private static Deck findDeckFromIdForUser(User user, String publicId) {
-		if(user.getDecks()==null || user.getDecks().size()<1){
+		if (user.getDecks() == null || user.getDecks().size() < 1) {
 			return null;
 		}
 		for (Deck deck : user.getDecks()) {
@@ -809,7 +881,8 @@ public final class Moxfieldedhreccomparer {
 	/*
 	 * For the history
 	 */
-	public static List<CardChange> getCardChangeHistory(String publicId) throws MalformedURLException {
+	public static List<CardChange> getCardChangeHistory(String publicId)
+			throws MalformedURLException, InterruptedException {
 		List<CardChange> allCardAdditions = new ArrayList<>();
 		int currentPage = 1;
 		int totalPages = 1;
@@ -871,6 +944,8 @@ public final class Moxfieldedhreccomparer {
 			} catch (Exception e) {
 				log.err("Error getting the connection to card additions history on page " + currentPage, e);
 				break;
+			} finally {
+				Thread.sleep(1000);
 			}
 		} while (currentPage <= totalPages);
 

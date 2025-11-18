@@ -29,13 +29,20 @@ public class Card {
     }
 
     int synergyPercent;
+    private String scryfall_id;
 
+    public String getScryfall_id() {
+        return scryfall_id;
+    }
+    public void setScryfall_id(String scryfall_id) {
+        this.scryfall_id = scryfall_id;
+    }
     public int getSynergyPercent() {
         return synergyPercent;
     }
 
     // Constructor
-    public Card(String name,String rarity, String mana_cost, int cmc, String type_line, List<String> color_identity, String commanderLegality, String oracle_text) {
+    public Card(String name,String rarity, String mana_cost, int cmc, String type_line, List<String> color_identity, String commanderLegality, String oracle_text, String scryfall_id) {
         this.name=name;
         this.rarity = rarity;
         this.mana_cost = mana_cost;
@@ -44,12 +51,14 @@ public class Card {
         this.color_identity = color_identity;
         this.commanderLegality=commanderLegality;
         this.oracleText = oracle_text;
+        this.scryfall_id = scryfall_id;
     }
-    public Card(String name2,int nDeck, int percent, int synergPercent) {
+    public Card(String name2,int nDeck, int percent, int synergPercent, String id) {
         this.name=name2;
         this.nDeck=nDeck;
         this.percentPresentDeck=percent;
         this.synergyPercent=synergPercent;
+        this.scryfall_id = id;
     }
     public String getName() {
         return name;
@@ -105,5 +114,12 @@ public class Card {
     }
     public void setSynergyPercent(int synergPercent) {
         this.synergyPercent=synergPercent;
+    }
+    public String getScryfallImg() {
+        if (this.scryfall_id!=null) {
+            return "https://api.scryfall.com/cards/" + this.scryfall_id + "?format=image";
+        } else {
+            return "https://ih1.redbubble.net/image.1861329518.2941/flat,750x,075,f-pad,750x1000,f8f8f8.jpg";
+        }
     }
 }

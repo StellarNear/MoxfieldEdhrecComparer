@@ -41,8 +41,19 @@ users:
         edhreclinks:
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/sauron-the-dark-lord/zombie-tokens.json?slug=sauron-the-dark-lord&tag=zombie-tokens
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/sauron-the-dark-lord.json?slug=sauron-the-dark-lord
+      - name: Bumbleflower
+        moxfieldId: l9U_z9TzgkiG4Ht7y1sEhA
+        edhreclinks:
+          - https://edhrec.com/_next/data/bs7573T0jDZd7_1QjgPxS/commanders/ms-bumbleflower/group-hug.json?slug=ms-bumbleflower&slug=group-hug
+          - https://edhrec.com/_next/data/bs7573T0jDZd7_1QjgPxS/commanders/ms-bumbleflower.json?slug=ms-bumbleflower
   - name: StellarNear
     decks:
+      - name: Trostani
+        moxfieldId: M8W7EnuHkkKY4u-B8qcTZw
+        edhreclinks:
+          - https://edhrec.com/_next/data/ZSe-dO3JxrGfQuCfK_fgq/commanders/trostani-selesnyas-voice/tokens.json?slug=trostani-selesnyas-voice&slug=tokens
+          - https://edhrec.com/_next/data/ZSe-dO3JxrGfQuCfK_fgq/commanders/trostani-selesnyas-voice.json?slug=trostani-selesnyas-voice
+          - https://edhrec.com/_next/data/ZSe-dO3JxrGfQuCfK_fgq/commanders/trostani-selesnyas-voice/populate.json?slug=trostani-selesnyas-voice&slug=populate
       - name: Giada
         moxfieldId: jSLw5ARhOUSWyhwdPQx2lQ
         edhreclinks:
@@ -99,7 +110,7 @@ users:
         edhreclinks:
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/balan-wandering-knight/equipment.json?slug=balan-wandering-knight&tag=equipment
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/balan-wandering-knight.json?slug=balan-wandering-knight
-      - name: Kathilda
+      - name: Katilda
         moxfieldId: MfbuzT0nBk6Jk13AvF363A
         edhreclinks:
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/katilda-dawnhart-martyr/spirit.json?slug=katilda-dawnhart-martyr&tag=spirit
@@ -115,7 +126,7 @@ users:
       - name: Orvar
         moxfieldId: fIO9qNM3sUKwXJw3b-pWtA
         edhreclinks:
-          - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/orvar-the-all-form/cantrips.json?slug=orvar-the-all-form&tag=cantrips
+          - https://edhrec.com/_next/data/T-fsz3Nn7uRRECOSg8vSz/commanders/orvar-the-all-form/combo.json?slug=orvar-the-all-form&slug=combo
           - https://edhrec.com/_next/data/70Pv9HGGACsYuCcVwbdwE/commanders/orvar-the-all-form.json?slug=orvar-the-all-form
       - name: Stella
         moxfieldId: Zra0UDSL00uwbtFlTc41Pw
@@ -199,6 +210,12 @@ users:
         edhreclinks:
           - https://edhrec.com/_next/data/KtGxzdgkEXU5cPDELziF7/commanders/anikthea-hand-of-erebos.json?slug=anikthea-hand-of-erebos
           - https://edhrec.com/_next/data/KtGxzdgkEXU5cPDELziF7/commanders/anikthea-hand-of-erebos/enchantress.json?slug=anikthea-hand-of-erebos&tag=enchantress
+          - https://edhrec.com/_next/data/EPetghnpFHyuszPz2rRTs/commanders/anikthea-hand-of-erebos/populate.json?slug=anikthea-hand-of-erebos&tag=populate
+      - name: Y'shtola
+        moxfieldId: r6-osEkalk-adEwgnzwIcA
+        edhreclinks:
+          - https://edhrec.com/_next/data/i7vemF8imU90njJl_uXlf/commanders/yshtola-nights-blessed/control.json?slug=yshtola-nights-blessed&slug=control
+          - https://edhrec.com/_next/data/i7vemF8imU90njJl_uXlf/commanders/yshtola-nights-blessed.json?slug=yshtola-nights-blessed
   - name: juicymrs13
     decks:
       - name: Aragorn
@@ -231,6 +248,14 @@ users:
           - https://edhrec.com/_next/data/w8K9u-m5F3jRsu8uflilq/commanders/captain-nghathrod.json?slug=captain-nghathrod
   - name: Tylem
     decks:
+      - name: Ureni
+        moxfieldId: tHmDNOA-DkSlUlwfxeVx3Q
+        edhreclinks:
+          - https://edhrec.com/_next/data/yxOCik826rEXs3iHUFYAt/commanders/ureni-of-the-unwritten.json?slug=ureni-of-the-unwritten
+      - name: Vivi
+        moxfieldId: ymcSfkXJ30ecErYFFUX28g
+        edhreclinks:
+          - https://edhrec.com/_next/data/yxOCik826rEXs3iHUFYAt/commanders/vivi-ornitier.json?slug=vivi-ornitier
       - name: Miirym
         moxfieldId: I0PhX2o9wEegdYIid6p6bw
         edhreclinks:
