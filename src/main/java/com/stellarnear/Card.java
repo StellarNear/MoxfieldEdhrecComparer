@@ -1,6 +1,16 @@
 package com.stellarnear;
 
+import java.io.BufferedReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.net.URLEncoder;
+import java.nio.charset.StandardCharsets;
 import java.util.List;
+
+import org.json.JSONObject;
+import org.json.JSONTokener;
 
 public class Card {
     private String rarity;
@@ -11,6 +21,8 @@ public class Card {
     private String name;
     private String commanderLegality;
     private String oracleText;
+
+    	private static CustomLog log = new CustomLog(Card.class);
 
     int percentPresentDeck;
     public int getPercentPresentDeck() {
@@ -44,6 +56,7 @@ public class Card {
     // Constructor
     public Card(String name,String rarity, String mana_cost, int cmc, String type_line, List<String> color_identity, String commanderLegality, String oracle_text, String scryfall_id) {
         this.name=name;
+        
         this.rarity = rarity;
         this.mana_cost = mana_cost;
         this.cmc = cmc;
@@ -116,10 +129,56 @@ public class Card {
         this.synergyPercent=synergPercent;
     }
     public String getScryfallImg() {
-        if (this.scryfall_id!=null) {
+        
+        	if (this.scryfall_id == null || this.scryfall_id == "" || this.scryfall_id.equals("null")) {
+									setScryfall_id(lookupScryfallIdFromName());
+								}
+
+
+        if (this.scryfall_id!=null || this.scryfall_id!="" || !this.scryfall_id.equals("null")) {
             return "https://api.scryfall.com/cards/" + this.scryfall_id + "?format=image";
         } else {
             return "https://ih1.redbubble.net/image.1861329518.2941/flat,750x,075,f-pad,750x1000,f8f8f8.jpg";
         }
     }
+
+
+    private String lookupScryfallIdFromName() {
+			// Small delay to respect Scryfall rate-limits
+		try {
+			Thread.sleep(1000); // e.g., 200ms delay between requests
+		} catch (InterruptedException ie) {
+			Thread.currentThread().interrupt();
+		}
+		try {
+			String encodedName = URLEncoder.encode(this.name, StandardCharsets.UTF_8.toString());
+			String urlStr = "https://api.scryfall.com/cards/named?exact=" + encodedName;
+			HttpURLConnection conn = (HttpURLConnection) new URL(urlStr).openConnection();
+			conn.setRequestMethod("GET");
+			int code = conn.getResponseCode();
+			InputStream is = (code >= 200 && code < 300)
+					? conn.getInputStream()
+					: conn.getErrorStream();
+			String body;
+			try (BufferedReader reader = new BufferedReader(new InputStreamReader(is, StandardCharsets.UTF_8))) {
+				StringBuilder sb = new StringBuilder();
+				String line;
+				while ((line = reader.readLine()) != null) {
+					sb.append(line).append(System.lineSeparator());
+				}
+				body = sb.toString();
+			}
+			if (code == 200) {
+				JSONObject obj = new JSONObject(new JSONTokener(body));
+				return obj.getString("id");
+			} else {
+				log.err(String.format("Scryfall lookup failed for card name: \"%s\" | HTTP %d | Response: %s",
+						this.name, code, body));
+			}
+		} catch (Exception e) {
+			log.err("Error retrieving Scryfall ID for card name: " + name, e);
+		}
+	
+		return null;
+	}
 }

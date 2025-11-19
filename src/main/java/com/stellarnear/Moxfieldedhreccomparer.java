@@ -4,12 +4,14 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
@@ -31,6 +33,8 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.jasypt.util.text.BasicTextEncryptor;
+import org.json.JSONObject;
+import org.json.JSONTokener;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -104,8 +108,8 @@ public final class Moxfieldedhreccomparer {
 		/* Setting part */
 
 		// if single from full list
-		boolean singleDeckFromList = false;
-		String deckName = "Y'Shtola";
+		boolean singleDeckFromList = true;
+		String deckName = "Lathril";
 
 		boolean singleUser = true;
 		String singleUserName = "stellarnear";
@@ -455,6 +459,8 @@ public final class Moxfieldedhreccomparer {
 		}
 	}
 
+	
+
 	private static List<Card> getDeckListFor(String publicId) throws MalformedURLException, InterruptedException {
 		// ex https://api.moxfield.com/v2/decks/all/HxV33izihky7KTwjU0ER9w
 		String deckUrl = "https://api.moxfield.com/v2/decks/all/" + publicId;
@@ -614,10 +620,9 @@ public final class Moxfieldedhreccomparer {
 		return false;
 	}
 
-
 	private static void htmlOutputFile(String user, String nameDeck, List<Card> allCards, String nameFile)
 			throws IOException {
-				
+
 		File userDir = new File("OUT/" + user);
 		if (!userDir.exists()) {
 			userDir.mkdir();
@@ -723,7 +728,6 @@ public final class Moxfieldedhreccomparer {
 		}
 	}
 
-	
 	/**
 	 * Escapes HTML special characters to prevent broken markup.
 	 */
