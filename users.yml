@@ -48,6 +48,12 @@ users:
           - https://edhrec.com/_next/data/bs7573T0jDZd7_1QjgPxS/commanders/ms-bumbleflower.json?slug=ms-bumbleflower
   - name: StellarNear
     decks:
+      - name: Zidane
+        moxfieldId: riwKZ5KJNk6uBq4Hvwm6VQ
+        edhreclinks:
+          - https://edhrec.com/_next/data/0uY-NqKghm-lidMbQSr6x/commanders/zidane-tantalus-thief/theft.json?slug=zidane-tantalus-thief&slug=theft
+          - https://edhrec.com/_next/data/0uY-NqKghm-lidMbQSr6x/commanders/zidane-tantalus-thief/blink.json?slug=zidane-tantalus-thief&slug=blink
+          - https://edhrec.com/_next/data/0uY-NqKghm-lidMbQSr6x/commanders/zidane-tantalus-thief.json?slug=zidane-tantalus-thief
       - name: Trostani
         moxfieldId: M8W7EnuHkkKY4u-B8qcTZw
         edhreclinks:

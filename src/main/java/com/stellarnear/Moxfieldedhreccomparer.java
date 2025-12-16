@@ -4,14 +4,12 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.io.PrintWriter;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.net.URLEncoder;
 import java.nio.charset.StandardCharsets;
 import java.time.Duration;
 import java.time.Instant;
@@ -33,8 +31,6 @@ import java.util.regex.Pattern;
 import java.util.stream.Collectors;
 
 import org.jasypt.util.text.BasicTextEncryptor;
-import org.json.JSONObject;
-import org.json.JSONTokener;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -109,7 +105,7 @@ public final class Moxfieldedhreccomparer {
 
 		// if single from full list
 		boolean singleDeckFromList = true;
-		String deckName = "Lathril";
+		String deckName = "Zidane";
 
 		boolean singleUser = true;
 		String singleUserName = "stellarnear";
@@ -459,8 +455,6 @@ public final class Moxfieldedhreccomparer {
 		}
 	}
 
-	
-
 	private static List<Card> getDeckListFor(String publicId) throws MalformedURLException, InterruptedException {
 		// ex https://api.moxfield.com/v2/decks/all/HxV33izihky7KTwjU0ER9w
 		String deckUrl = "https://api.moxfield.com/v2/decks/all/" + publicId;
@@ -660,14 +654,15 @@ public final class Moxfieldedhreccomparer {
 			html.println("th { background-color: #4CAF50; color: white; cursor: pointer; position: relative; }");
 			html.println("th:hover { background-color: #45a049; }");
 			html.println("tr:nth-child(even) { background-color: #f2f2f2; }");
-			html.println(".card-name { position: relative; cursor: pointer; color: #2a72d4; font-weight: bold; }");
+			html.println(
+					".card-name { position: relative; cursor: pointer; color: #2a72d4; font-weight: bold; display: block; text-align: center; }");
 			html.println(".card-name:hover .card-image { display: block; }");
 			html.println(
-					".card-image { display: none; position: absolute; top: 120%; left: 50%; transform: translateX(-50%);");
-			html.println(
-					"  border: 1px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.3); z-index: 10; background: white; }");
+					".card-image { display: none; position: fixed; top: auto; left: auto; transform: none; border: 1px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.3); z-index: 999; background: white; }");
 			html.println(".card-image img { width: 240px; height: auto; border-radius: 4px; }");
 			html.println(".sort-arrow { position: absolute; right: 8px; font-size: 12px; }");
+			html.println("a { color: #2a72d4; text-decoration: none; }");
+			html.println("a:hover { text-decoration: underline; }");
 			html.println("</style>");
 			html.println("</head>");
 			html.println("<body>");
@@ -686,9 +681,12 @@ public final class Moxfieldedhreccomparer {
 
 			for (Card card : allCards) {
 				html.println("<tr>");
-				html.println("<td class='card-name'>" + escapeHtml(card.getName())
-						+ "<div class='card-image'><img src='" + escapeHtml(card.getScryfallImg()) + "' alt='"
-						+ escapeHtml(card.getName()) + "'></div></td>");
+				html.println("<td class='card-name'>"
+						+ "<a href='https://scryfall.com/card/" + escapeHtml(card.getScryfall_id())
+						+ "' target='_blank'>" + escapeHtml(card.getName()) + "</a>"
+						+ "<div class='card-image'><img src='" + escapeHtml(card.getScryfallImg())
+						+ "' alt='" + escapeHtml(card.getName()) + "'></div>"
+						+ "</td>");
 				html.println("<td>" + card.getPercentPresentDeck() + "%</td>");
 				html.println("<td>" + card.getnDeck() + "</td>");
 				html.println("<td>" + card.getSynergyPercent() + "%</td>");
@@ -698,7 +696,7 @@ public final class Moxfieldedhreccomparer {
 			html.println("</tbody>");
 			html.println("</table>");
 
-			// Add a lightweight sorting script
+			// Sorting + hover image position scripts
 			html.println("<script>");
 			html.println("function sortTable(columnIndex, type) {");
 			html.println("  var table = document.getElementById('cardTable');");
@@ -721,10 +719,29 @@ public final class Moxfieldedhreccomparer {
 			html.println("  for (let i = 0; i < rows.length; i++) table.tBodies[0].appendChild(rows[i]);");
 			html.println("  table.setAttribute('data-sort-dir', asc ? 'asc' : 'desc');");
 			html.println("}");
+
+			// JS to move image near cursor and prevent flicker
+			html.println("document.querySelectorAll('.card-name').forEach(function(card) {");
+			html.println("  var imgDiv = card.querySelector('.card-image');");
+			html.println("  card.addEventListener('mousemove', function(e) {");
+			html.println("    if (!imgDiv) return;");
+			html.println("    const imgHeight = imgDiv.offsetHeight || 260;"); // estimate if not loaded yet
+			html.println("    const margin = 20;");
+			html.println("    let topPos = e.clientY - 100;");
+			html.println("    if (topPos + imgHeight + margin > window.innerHeight) {");
+			html.println("      topPos = window.innerHeight - imgHeight - margin;");
+			html.println("    }");
+			html.println("    if (topPos < margin) topPos = margin;");
+			html.println("    imgDiv.style.left = (e.clientX + 20) + 'px';");
+			html.println("    imgDiv.style.top = topPos + 'px';");
+
+			html.println("  });");
+			html.println("});");
 			html.println("</script>");
 
 			html.println("</body>");
 			html.println("</html>");
+
 		}
 	}
 
