@@ -104,11 +104,11 @@ public final class Moxfieldedhreccomparer {
 		/* Setting part */
 
 		// if single from full list
-		boolean singleDeckFromList = true;
+		boolean singleDeckFromList = false;
 		String deckName = "maralen";
 
 		boolean singleUser = true;
-		String singleUserName = "stellarnear";
+		String singleUserName = "kortow";
 
 		gameChangers = mapper.readValue(new File("./game_changer.yml"),
 				mapper.getTypeFactory().constructCollectionType(List.class, String.class));
@@ -321,29 +321,9 @@ public final class Moxfieldedhreccomparer {
 				}
 			}
 
-			htmlOutputFile(user, name, crea, "Creatures");
-
-			htmlOutputFile(user, name, sorcery, "Sorceries");
-
-			htmlOutputFile(user, name, instant, "Instants");
-
-			htmlOutputFile(user, name, artifact, "Artifacts");
-
-			htmlOutputFile(user, name, land, "Lands");
-
-			htmlOutputFile(user, name, enchantment, "Enchantments");
-
-			htmlOutputFile(user, name, misc, "Miscs");
-
-			htmlOutputFile(user, name, allDeckCards, "AllCards");
-
-			List<Card> allDeckCardsExceptLands = allDeckCards.stream()
-					.filter(card -> !card.getType_line().toLowerCase().contains("land")).collect(Collectors.toList());
-
-			htmlOutputFile(user, name, allDeckCardsExceptLands, "AllCardsButLands");
-
+			htmlOutputFileSmart(user, name, allDeckCards, missing);
 			if (missing.size() > 0) {
-				htmlOutputFile(user, name, missing, "Missings");
+
 				for (Card card : missing) {
 					log.warn("User " + user + ", Deck [" + name + "] don't have [" + card.getName()
 							+ "] which is played on more than " + percentRetainMissingCard + " % of the EDHRec decks");
@@ -603,28 +583,20 @@ public final class Moxfieldedhreccomparer {
 		return false;
 	}
 
-	private static void htmlOutputFile(String user, String nameDeck, List<Card> allCards, String nameFile)
+	private static void htmlOutputFileSmart(String user, String nameDeck, List<Card> allDeckCards, List<Card> missing)
 			throws IOException {
 
 		File userDir = new File("OUT/" + user);
-		if (!userDir.exists()) {
+		if (!userDir.exists())
 			userDir.mkdir();
-		}
+
 		File deckDir = new File(userDir.getAbsolutePath() + "/" + nameDeck);
-		if (!deckDir.exists()) {
+		if (!deckDir.exists())
 			deckDir.mkdir();
-		}
 
-		File csvFile = new File(deckDir, nameFile + ".csv");
-		if (csvFile.exists()) {
-			csvFile.delete();
-		}
-
-		// === HTML EXPORT ===
-		File htmlFile = new File(deckDir, nameFile + ".html");
-		if (htmlFile.exists()) {
+		File htmlFile = new File(deckDir, nameDeck + "_analysis.html");
+		if (htmlFile.exists())
 			htmlFile.delete();
-		}
 
 		try (PrintWriter html = new PrintWriter(new OutputStreamWriter(
 				new FileOutputStream(htmlFile), StandardCharsets.UTF_8))) {
@@ -634,104 +606,288 @@ public final class Moxfieldedhreccomparer {
 			html.println("<head>");
 			html.println("<meta charset=\"UTF-8\">");
 			html.println("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0\">");
-			html.println("<title>" + nameDeck + " - " + nameFile + "</title>");
+			html.println("<title>" + escapeHtml(nameDeck) + " - Smart View</title>");
 			html.println("<style>");
-			html.println("body { font-family: Arial, sans-serif; background: #f9f9f9; color: #333; padding: 20px; }");
+			html.println("body { font-family: Arial, sans-serif; background: #f0f2f5; color: #333; padding: 20px; }");
+			html.println("h2 { margin-bottom: 10px; }");
 			html.println(
-					"table { border-collapse: collapse; width: 100%; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }");
-			html.println("th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }");
+					".controls { display: flex; flex-wrap: wrap; gap: 12px; align-items: center; background: white; padding: 14px 18px; border-radius: 8px; box-shadow: 0 2px 6px rgba(0,0,0,0.1); margin-bottom: 18px; }");
+			html.println(".filter-group { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }");
+			html.println(".filter-label { font-weight: bold; margin-right: 4px; }");
+			html.println(
+					".chip { display: inline-flex; align-items: center; gap: 5px; padding: 5px 12px; border-radius: 20px; cursor: pointer; font-size: 14px; border: 2px solid transparent; user-select: none; transition: opacity 0.2s; }");
+			html.println(".chip input { cursor: pointer; }");
+			html.println(".chip-creature    { background: #e8f5e9; border-color: #4CAF50; }");
+			html.println(".chip-sorcery     { background: #fff3e0; border-color: #FF9800; }");
+			html.println(".chip-instant     { background: #e3f2fd; border-color: #2196F3; }");
+			html.println(".chip-land        { background: #f3e5f5; border-color: #9C27B0; }");
+			html.println(".chip-enchantment { background: #fce4ec; border-color: #E91E63; }");
+			html.println(".chip-artifact    { background: #f5f5f5; border-color: #9E9E9E; }");
+			html.println(".chip-misc        { background: #e0f7fa; border-color: #00BCD4; }");
+			html.println(".chip.unchecked   { opacity: 0.4; }");
+			html.println(
+					".toggle-btn { padding: 8px 20px; border-radius: 6px; border: none; cursor: pointer; font-size: 14px; font-weight: bold; transition: background 0.2s; }");
+			html.println(".toggle-btn.deck    { background: #4CAF50; color: white; }");
+			html.println(".toggle-btn.missing { background: #f44336; color: white; }");
+			html.println(".toggle-btn.neutral { background: #607D8B; color: white; }");
+			html.println(".stats { font-size: 13px; color: #666; margin-left: auto; }");
+			html.println(
+					"table { border-collapse: collapse; width: 100%; background: white; box-shadow: 0 2px 5px rgba(0,0,0,0.1); border-radius: 8px; overflow: hidden; }");
+			html.println("th, td { border: 1px solid #ddd; padding: 8px 12px; text-align: center; }");
 			html.println("th { background-color: #4CAF50; color: white; cursor: pointer; position: relative; }");
 			html.println("th:hover { background-color: #45a049; }");
-			html.println("tr:nth-child(even) { background-color: #f2f2f2; }");
+			html.println("tr:nth-child(even) { background-color: #f9f9f9; }");
+			html.println("tr:hover { background-color: #e8f5e9; }");
 			html.println(
-					".card-name { position: relative; cursor: pointer; color: #2a72d4; font-weight: bold; display: block; text-align: center; }");
+					".type-badge { display: inline-block; font-size: 11px; padding: 1px 7px; border-radius: 10px; margin: 1px; font-weight: normal; vertical-align: middle; }");
+			html.println(".badge-creature    { background: #c8e6c9; color: #2e7d32; }");
+			html.println(".badge-sorcery     { background: #ffe0b2; color: #e65100; }");
+			html.println(".badge-instant     { background: #bbdefb; color: #0d47a1; }");
+			html.println(".badge-land        { background: #e1bee7; color: #6a1b9a; }");
+			html.println(".badge-enchantment { background: #f8bbd0; color: #880e4f; }");
+			html.println(".badge-artifact    { background: #e0e0e0; color: #424242; }");
+			html.println(".badge-misc        { background: #b2ebf2; color: #006064; }");
+			html.println(
+					".card-name { position: relative; cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 6px; }");
+			html.println(".card-name a { color: #2a72d4; font-weight: bold; text-decoration: none; }");
+			html.println(".card-name a:hover { text-decoration: underline; }");
 			html.println(".card-name:hover .card-image { display: block; }");
 			html.println(
-					".card-image { display: none; position: fixed; top: auto; left: auto; transform: none; border: 1px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.3); z-index: 999; background: white; }");
-			html.println(".card-image img { width: 240px; height: auto; border-radius: 4px; }");
+					".card-image { display: none; position: fixed; border: 1px solid #ccc; box-shadow: 0 2px 6px rgba(0,0,0,0.3); z-index: 999; background: white; border-radius: 6px; }");
+			html.println(".card-image img { width: 360px; height: auto; border-radius: 4px; display: block; }");
 			html.println(".sort-arrow { position: absolute; right: 8px; font-size: 12px; }");
-			html.println("a { color: #2a72d4; text-decoration: none; }");
-			html.println("a:hover { text-decoration: underline; }");
 			html.println("</style>");
 			html.println("</head>");
 			html.println("<body>");
-			html.println("<h2>" + nameDeck + " - " + nameFile + "</h2>");
-			html.println("<table id='cardTable'>");
-			html.println("<thead>");
-			html.println("<tr>");
-			html.println("<th onclick='sortTable(0, \"string\")'>Card Name<span class='sort-arrow'>⇅</span></th>");
-			html.println(
-					"<th onclick='sortTable(1, \"number\")'>Percent Presence<span class='sort-arrow'>⇅</span></th>");
-			html.println("<th onclick='sortTable(2, \"number\")'>Ndeck<span class='sort-arrow'>⇅</span></th>");
-			html.println("<th onclick='sortTable(3, \"number\")'>Synergy<span class='sort-arrow'>⇅</span></th>");
-			html.println("</tr>");
-			html.println("</thead>");
-			html.println("<tbody>");
+			html.println("<h2>" + escapeHtml(nameDeck) + " — Smart Deck View</h2>");
 
-			for (Card card : allCards) {
-				html.println("<tr>");
-				html.println("<td class='card-name'>"
-						+ "<a href='https://scryfall.com/card/" + escapeHtml(card.getScryfall_id())
-						+ "' target='_blank'>" + escapeHtml(card.getName()) + "</a>"
-						+ "<div class='card-image'><img src='" + escapeHtml(card.getScryfallImg())
-						+ "' alt='" + escapeHtml(card.getName()) + "'></div>"
-						+ "</td>");
-				html.println("<td>" + card.getPercentPresentDeck() + "%</td>");
-				html.println("<td>" + card.getnDeck() + "</td>");
-				html.println("<td>" + card.getSynergyPercent() + "%</td>");
-				html.println("</tr>");
+			// Controls bar
+			html.println("<div class='controls'>");
+			html.println("<span class='filter-label'>Filter:</span>");
+			html.println("<div class='filter-group'>");
+			for (String type : new String[] { "creature", "sorcery", "instant", "land", "enchantment", "artifact",
+					"misc" }) {
+				html.println("<label class='chip chip-" + type + "' id='chip-" + type + "'>");
+				html.println("  <input type='checkbox' id='chk-" + type + "' checked onchange='applyFilters()'> "
+						+ capitalize(type));
+				html.println("</label>");
 			}
+			html.println("</div>");
+			html.println("<button class='toggle-btn neutral' onclick='selectAll()'>✔ Select All</button>");
+			html.println(
+					"<button class='toggle-btn deck' id='toggleBtn' onclick='toggleView()'>Show Missing Cards</button>");
+			html.println("<span class='stats' id='statsLabel'></span>");
+			html.println("</div>");
 
-			html.println("</tbody>");
+			// Table
+			html.println("<table id='cardTable'>");
+			html.println("<thead><tr>");
+			html.println("<th onclick='sortTable(0)'>Card Name<span class='sort-arrow'>⇅</span></th>");
+			html.println("<th onclick='sortTable(1)'>Type<span class='sort-arrow'>⇅</span></th>");
+			html.println("<th onclick='sortTable(2)'>Presence %<span class='sort-arrow'>⇅</span></th>");
+			html.println("<th onclick='sortTable(3)'>N Decks<span class='sort-arrow'>⇅</span></th>");
+			html.println("<th onclick='sortTable(4)'>Synergy %<span class='sort-arrow'>⇅</span></th>");
+			html.println("</tr></thead>");
+			html.println("<tbody id='tableBody'></tbody>");
 			html.println("</table>");
 
-			// Sorting + hover image position scripts
+			// Embed card data as JSON
 			html.println("<script>");
-			html.println("function sortTable(columnIndex, type) {");
-			html.println("  var table = document.getElementById('cardTable');");
-			html.println("  var rows = Array.from(table.rows).slice(1);"); // skip header
-			html.println("  var asc = table.getAttribute('data-sort-dir') !== 'asc';");
-			html.println("  rows.sort(function(a, b) {");
-			html.println("    var x = a.cells[columnIndex].innerText.trim();");
-			html.println("    var y = b.cells[columnIndex].innerText.trim();");
-			html.println("    if (type === 'number') {");
-			html.println("      x = parseFloat(x.replace('%', '')) || 0;");
-			html.println("      y = parseFloat(y.replace('%', '')) || 0;");
-			html.println("    }");
-			html.println("    if (type === 'string') {");
-			html.println("      x = x.toLowerCase(); y = y.toLowerCase();");
-			html.println("    }");
-			html.println("    if (x < y) return asc ? -1 : 1;");
-			html.println("    if (x > y) return asc ? 1 : -1;");
-			html.println("    return 0;");
-			html.println("  });");
-			html.println("  for (let i = 0; i < rows.length; i++) table.tBodies[0].appendChild(rows[i]);");
-			html.println("  table.setAttribute('data-sort-dir', asc ? 'asc' : 'desc');");
-			html.println("}");
 
-			// JS to move image near cursor and prevent flicker
-			html.println("document.querySelectorAll('.card-name').forEach(function(card) {");
-			html.println("  var imgDiv = card.querySelector('.card-image');");
-			html.println("  card.addEventListener('mousemove', function(e) {");
-			html.println("    if (!imgDiv) return;");
-			html.println("    const imgHeight = imgDiv.offsetHeight || 260;"); // estimate if not loaded yet
-			html.println("    const margin = 20;");
-			html.println("    let topPos = e.clientY - 100;");
-			html.println("    if (topPos + imgHeight + margin > window.innerHeight) {");
-			html.println("      topPos = window.innerHeight - imgHeight - margin;");
-			html.println("    }");
-			html.println("    if (topPos < margin) topPos = margin;");
-			html.println("    imgDiv.style.left = (e.clientX + 20) + 'px';");
-			html.println("    imgDiv.style.top = topPos + 'px';");
+			html.println("var deckCards = [");
+			for (int i = 0; i < allDeckCards.size(); i++) {
+				html.print(cardToJson(allDeckCards.get(i)));
+				if (i < allDeckCards.size() - 1)
+					html.print(",");
+				html.println();
+			}
+			html.println("];");
 
-			html.println("  });");
-			html.println("});");
+			html.println("var missingCards = [");
+			for (int i = 0; i < missing.size(); i++) {
+				html.print(cardToJson(missing.get(i)));
+				if (i < missing.size() - 1)
+					html.print(",");
+				html.println();
+			}
+			html.println("];");
+
+			html.println(
+					"""
+							var currentView = 'deck';
+							var sortCol = -1, sortAsc = true;
+
+							function getTypes(card) {
+							    var t = card.typeLine.toLowerCase();
+							    var types = [];
+							    if (t.includes('creat') && !t.includes('enchant')) types.push('creature');
+							    if (t.includes('sorcer'))  types.push('sorcery');
+							    if (t.includes('instant')) types.push('instant');
+							    if (t.includes('artifa'))  types.push('artifact');
+							    if (t.includes('enchant')) types.push('enchantment');
+							    if (t.includes('land'))    types.push('land');
+							    if (types.length === 0)    types.push('misc');
+							    return types;
+							}
+
+							function badgeHtml(type) {
+							    return '<span class="type-badge badge-' + type + '">' + type.charAt(0).toUpperCase() + type.slice(1) + '</span>';
+							}
+
+							function buildRow(card) {
+							    var types    = getTypes(card);
+							    var badges   = types.map(badgeHtml).join(' ');
+							    var presence = card.presence === -1 ? 'N/A' : card.presence + '%';
+							    var ndeck    = card.ndeck    === -1 ? 'N/A' : card.ndeck;
+							    var synergy  = card.synergy  === -1 ? 'N/A' : card.synergy + '%';
+							    var tr = document.createElement('tr');
+							    tr.dataset.types = types.join(',');
+							    tr.innerHTML =
+							        '<td class="card-name">' +
+							            '<a href="https://scryfall.com/card/' + card.scryfallId + '" target="_blank">' + escHtml(card.name) + '</a>' +
+							            '<div class="card-image"><img src="' + card.img + '" alt="' + escHtml(card.name) + '"></div>' +
+							        '</td>' +
+							        '<td>' + badges + '</td>' +
+							        '<td>' + presence + '</td>' +
+							        '<td>' + ndeck + '</td>' +
+							        '<td>' + synergy + '</td>';
+							    return tr;
+							}
+
+							function escHtml(s) {
+							    return s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+							}
+
+							function getActiveFilters() {
+							    var active = [];
+							    ['creature','sorcery','instant','land','enchantment','artifact','misc'].forEach(function(t) {
+							        if (document.getElementById('chk-' + t).checked) active.push(t);
+							    });
+							    return active;
+							}
+
+							function render() {
+							    var cards   = currentView === 'deck' ? deckCards : missingCards;
+							    var filters = getActiveFilters();
+							    var tbody   = document.getElementById('tableBody');
+							    tbody.innerHTML = '';
+
+							    var filtered = cards.filter(function(c) {
+							        return getTypes(c).some(function(t) { return filters.includes(t); });
+							    });
+
+							    if (sortCol >= 0) filtered = applySortToArray(filtered, sortCol, sortAsc);
+
+							    filtered.forEach(function(card) { tbody.appendChild(buildRow(card)); });
+
+							    updateStats(filtered.length, cards.length);
+							    attachHoverListeners();
+							}
+
+							function applySortToArray(arr, col, asc) {
+							    return arr.slice().sort(function(a, b) {
+							        var x, y;
+							        if      (col === 0) { x = a.name.toLowerCase();  y = b.name.toLowerCase(); }
+							        else if (col === 1) { x = getTypes(a)[0];         y = getTypes(b)[0]; }
+							        else if (col === 2) { x = a.presence === -1 ? -999 : a.presence; y = b.presence === -1 ? -999 : b.presence; }
+							        else if (col === 3) { x = a.ndeck    === -1 ? -999 : a.ndeck;    y = b.ndeck    === -1 ? -999 : b.ndeck; }
+							        else if (col === 4) { x = a.synergy  === -1 ? -999 : a.synergy;  y = b.synergy  === -1 ? -999 : b.synergy; }
+							        if (x < y) return asc ? -1 : 1;
+							        if (x > y) return asc ? 1 : -1;
+							        return 0;
+							    });
+							}
+
+							function sortTable(col) {
+							    if (sortCol === col) sortAsc = !sortAsc;
+							    else { sortCol = col; sortAsc = true; }
+							    render();
+							}
+
+							function applyFilters() {
+							    ['creature','sorcery','instant','land','enchantment','artifact','misc'].forEach(function(t) {
+							        var chk  = document.getElementById('chk-' + t);
+							        var chip = document.getElementById('chip-' + t);
+							        chip.classList.toggle('unchecked', !chk.checked);
+							    });
+							    render();
+							}
+
+							function selectAll() {
+							    ['creature','sorcery','instant','land','enchantment','artifact','misc'].forEach(function(t) {
+							        document.getElementById('chk-' + t).checked = true;
+							        document.getElementById('chip-' + t).classList.remove('unchecked');
+							    });
+							    render();
+							}
+
+							function toggleView() {
+							    currentView = currentView === 'deck' ? 'missing' : 'deck';
+							    var btn = document.getElementById('toggleBtn');
+							    if (currentView === 'missing') {
+							        btn.textContent = '← Back to Deck Cards';
+							        btn.className = 'toggle-btn missing';
+							    } else {
+							        btn.textContent = 'Show Missing Cards';
+							        btn.className = 'toggle-btn deck';
+							    }
+							    render();
+							}
+
+							function updateStats(shown, total) {
+							    document.getElementById('statsLabel').textContent = 'Showing ' + shown + ' / ' + total + ' cards';
+							}
+
+							function attachHoverListeners() {
+							    document.querySelectorAll('.card-name').forEach(function(card) {
+							        var imgDiv = card.querySelector('.card-image');
+							        card.addEventListener('mousemove', function(e) {
+							            if (!imgDiv) return;
+							            var imgHeight = imgDiv.offsetHeight || 390;
+							            var margin = 20;
+							            var topPos = e.clientY - 100;
+							            if (topPos + imgHeight + margin > window.innerHeight) topPos = window.innerHeight - imgHeight - margin;
+							            if (topPos < margin) topPos = margin;
+							            imgDiv.style.left = (e.clientX + 20) + 'px';
+							            imgDiv.style.top  = topPos + 'px';
+							        });
+							    });
+							}
+
+							render();
+							""");
+
 			html.println("</script>");
-
 			html.println("</body>");
 			html.println("</html>");
-
 		}
+	}
+
+	private static String cardToJson(Card card) {
+		return String.format(
+				"{\"name\":%s,\"typeLine\":%s,\"scryfallId\":%s,\"img\":%s,\"presence\":%s,\"ndeck\":%s,\"synergy\":%s}",
+				jsonStr(card.getName()),
+				jsonStr(card.getType_line()),
+				jsonStr(card.getScryfall_id()),
+				jsonStr(card.getScryfallImg()),
+				card.getPercentPresentDeck(),
+				card.getnDeck(),
+				card.getSynergyPercent());
+	}
+
+	private static String jsonStr(String s) {
+		if (s == null)
+			return "\"\"";
+		return "\"" + s.replace("\\", "\\\\")
+				.replace("\"", "\\\"")
+				.replace("\n", "\\n")
+				.replace("\r", "") + "\"";
+	}
+
+	private static String capitalize(String s) {
+		if (s == null || s.isEmpty())
+			return s;
+		return Character.toUpperCase(s.charAt(0)) + s.substring(1);
 	}
 
 	/**
