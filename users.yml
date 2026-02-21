@@ -48,6 +48,11 @@ users:
           - https://edhrec.com/_next/data/bs7573T0jDZd7_1QjgPxS/commanders/ms-bumbleflower.json?slug=ms-bumbleflower
   - name: StellarNear
     decks:
+      - name: Maralen
+        moxfieldId: RX0dXYSOq02X_ssed8Wu0Q
+        edhreclinks:
+          - https://edhrec.com/_next/data/dKcToY6HXHJhXg1K0TpKd/commanders/maralen-fae-ascendant.json?slug=maralen-fae-ascendant
+          - https://edhrec.com/_next/data/dKcToY6HXHJhXg1K0TpKd/commanders/maralen-fae-ascendant/theft.json?slug=maralen-fae-ascendant&slug=theft
       - name: Zidane
         moxfieldId: riwKZ5KJNk6uBq4Hvwm6VQ
         edhreclinks:

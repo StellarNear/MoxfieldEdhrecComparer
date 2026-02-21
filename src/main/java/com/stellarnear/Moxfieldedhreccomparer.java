@@ -105,21 +105,10 @@ public final class Moxfieldedhreccomparer {
 
 		// if single from full list
 		boolean singleDeckFromList = true;
-		String deckName = "Zidane";
+		String deckName = "maralen";
 
 		boolean singleUser = true;
 		String singleUserName = "stellarnear";
-
-		// manual
-		// boolean manualSetting = false;
-		// deckName = "Frodo";
-		// List<String> edhRecPages = new ArrayList<>();
-		// edhRecPages.add(
-		// "https://edhrec.com/_next/data/GHPzhXhQMBhgMPrgEUOVI/commanders/frodo-adventurous-hobbit-sam-loyal-attendant.json?slug=frodo-adventurous-hobbit-sam-loyal-attendant");
-		// edhRecPages.add(
-		// "https://edhrec.com/_next/data/GHPzhXhQMBhgMPrgEUOVI/commanders/frodo-adventurous-hobbit-sam-loyal-attendant/lifegain.json?slug=frodo-adventurous-hobbit-sam-loyal-attendant&themeName=lifegain");
-		// treatDeck("Custom", deckName, publicMoxfieldId, edhRecPages);
-		/* enf of settign if all false we do all */
 
 		gameChangers = mapper.readValue(new File("./game_changer.yml"),
 				mapper.getTypeFactory().constructCollectionType(List.class, String.class));
