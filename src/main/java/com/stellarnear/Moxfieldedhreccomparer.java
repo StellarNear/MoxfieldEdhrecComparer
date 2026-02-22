@@ -55,7 +55,7 @@ public final class Moxfieldedhreccomparer {
 	private static Integer daysHistoryAdded = 90;
 	private static Integer daysHistoryCutted = 600;
 
-	private static Integer percentRetainMissingCard = 60;
+	private static Integer percentRetainMissingCard = 50;
 
 	private static String encryptedAgent = "lHAefqq+VW+GqIOzGqBz0oynoeez7psrip6XXYu1CeCnGIUznEHN5cCHFg2LR+X1";
 	private static String customPassword;
@@ -108,7 +108,7 @@ public final class Moxfieldedhreccomparer {
 		String deckName = "maralen";
 
 		boolean singleUser = true;
-		String singleUserName = "kortow";
+		String singleUserName = "stellarnear";
 
 		gameChangers = mapper.readValue(new File("./game_changer.yml"),
 				mapper.getTypeFactory().constructCollectionType(List.class, String.class));
@@ -675,7 +675,7 @@ public final class Moxfieldedhreccomparer {
 			html.println("</div>");
 			html.println("<button class='toggle-btn neutral' onclick='selectAll()'>✔ Select All</button>");
 			html.println(
-					"<button class='toggle-btn deck' id='toggleBtn' onclick='toggleView()'>Show Missing Cards</button>");
+					"<button class='toggle-btn deck' id='toggleBtn' onclick='toggleView()'>Show Missing Cards (" + missing.size() + " cards) [≥"+percentRetainMissingCard+" %]</button>");
 			html.println("<span class='stats' id='statsLabel'></span>");
 			html.println("</div>");
 
@@ -693,7 +693,7 @@ public final class Moxfieldedhreccomparer {
 
 			// Embed card data as JSON
 			html.println("<script>");
-
+			html.println("var percentRetainMissingCard = " + percentRetainMissingCard + ";");
 			html.println("var deckCards = [");
 			for (int i = 0; i < allDeckCards.size(); i++) {
 				html.print(cardToJson(allDeckCards.get(i)));
@@ -828,7 +828,7 @@ public final class Moxfieldedhreccomparer {
 							        btn.textContent = '← Back to Deck Cards';
 							        btn.className = 'toggle-btn missing';
 							    } else {
-							        btn.textContent = 'Show Missing Cards';
+							        btn.textContent = 'Show Missing Cards (' + missingCards.length + ' cards) [≥'+percentRetainMissingCard+' %]';
 							        btn.className = 'toggle-btn deck';
 							    }
 							    render();
